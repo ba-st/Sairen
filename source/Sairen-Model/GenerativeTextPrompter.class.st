@@ -6,15 +6,15 @@ Class {
 }
 
 { #category : 'instance creation' }
-GenerativeTextPrompter class >> authenticatedWith: aToken [
+GenerativeTextPrompter class >> authenticatedWith: anAPIKey [
 
-	^ self connectingWith: self defaultHTTPClientProvider authenticatedWith: aToken
+	^ self connectingWith: self defaultHTTPClientProvider authenticatedWith: anAPIKey
 ]
 
 { #category : 'instance creation' }
-GenerativeTextPrompter class >> connectingWith: aClientProvider authenticatedWith: aToken [
+GenerativeTextPrompter class >> connectingWith: aClientProvider authenticatedWith: anAPIKey [
 
-	^ self new initializeConnectingWith: aClientProvider using: aToken
+	^ self new initializeConnectingWith: aClientProvider using: anAPIKey
 ]
 
 { #category : 'private - accessing' }
@@ -28,7 +28,7 @@ GenerativeTextPrompter class >> defaultHTTPClientProvider [
 ]
 
 { #category : 'initialization' }
-GenerativeTextPrompter >> initializeConnectingWith: aClientProvider using: aToken [
+GenerativeTextPrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	self subclassResponsibility
 ]

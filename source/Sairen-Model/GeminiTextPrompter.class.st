@@ -3,7 +3,7 @@ Class {
 	#superclass : 'GenerativeTextPrompter',
 	#instVars : [
 		'clientProvider',
-		'token'
+		'apiKey'
 	],
 	#category : 'Sairen-Model',
 	#package : 'Sairen-Model'
@@ -19,15 +19,15 @@ GeminiTextPrompter >> baseUrl [
 GeminiTextPrompter >> httpClient [
 
 	^ clientProvider value
-		  url: self baseUrl / '/models/gemini-1.5-flash:generateContent' ? ( #key -> token );
+		  url: self baseUrl / '/models/gemini-1.5-flash:generateContent' ? ( #key -> apiKey );
 		  yourself
 ]
 
 { #category : 'initialization' }
-GeminiTextPrompter >> initializeConnectingWith: aClientProvider using: aToken [
+GeminiTextPrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	clientProvider := aClientProvider.
-	token := aToken
+	apiKey := anAPIKey
 ]
 
 { #category : 'private - accessing' }

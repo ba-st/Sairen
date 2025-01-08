@@ -3,7 +3,7 @@ Class {
 	#superclass : 'GenerativeTextPrompter',
 	#instVars : [
 		'clientProvider',
-		'token'
+		'apiKey'
 	],
 	#category : 'Sairen-Model',
 	#package : 'Sairen-Model'
@@ -20,15 +20,15 @@ GeminiImagePrompter >> httpClient [
 	"This model is not yet available"
 
 	^ clientProvider value
-		  url: self baseUrl / '/models/imagen-3.0-generate-001:generateContent' ? ( #key -> token );
+		  url: self baseUrl / '/models/imagen-3.0-generate-001:generateContent' ? ( #key -> apiKey );
 		  yourself
 ]
 
 { #category : 'initialization' }
-GeminiImagePrompter >> initializeConnectingWith: aClientProvider using: aToken [
+GeminiImagePrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	clientProvider := aClientProvider.
-	token := aToken
+	apiKey := anAPIKey
 ]
 
 { #category : 'private - accessing' }
@@ -47,7 +47,7 @@ GeminiImagePrompter >> listModels [
 	| client |
 
 	client := clientProvider value
-		          url: self baseUrl / 'models' ? ( #key -> token );
+		          url: self baseUrl / 'models' ? ( #key -> apiKey );
 		          yourself.
 	client get.
 	^ NeoJSONObject fromString: client response entity

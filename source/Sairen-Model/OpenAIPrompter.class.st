@@ -3,7 +3,7 @@ Class {
 	#superclass : 'GenerativeTextPrompter',
 	#instVars : [
 		'clientProvider',
-		'token'
+		'apiKey'
 	],
 	#category : 'Sairen-Model',
 	#package : 'Sairen-Model'
@@ -35,17 +35,17 @@ OpenAIPrompter >> get: anUrl [
 	client := clientProvider value
 		          url: anUrl;
 		          yourself.
-	client request setAuthorization: ( 'Bearer <1s>' expandMacrosWith: token ).
+	client request setAuthorization: ( 'Bearer <1s>' expandMacrosWith: apiKey ).
 	client get.
 
 	^ NeoJSONObject fromString: client response entity
 ]
 
 { #category : 'initialization' }
-OpenAIPrompter >> initializeConnectingWith: aClientProvider using: aToken [
+OpenAIPrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	clientProvider := aClientProvider.
-	token := aToken
+	apiKey := anAPIKey
 ]
 
 { #category : 'accessing' }
@@ -56,7 +56,7 @@ OpenAIPrompter >> prompt: aText [
 	client := clientProvider value
 		          url: self baseUrl / 'chat/completions';
 		          yourself.
-	client request setAuthorization: ( 'Bearer <1s>' expandMacrosWith: token ).
+	client request setAuthorization: ( 'Bearer <1s>' expandMacrosWith: apiKey ).
 	client entity: ( ZnEntity json: ( '{
   "model": "gpt-4o-mini",
   "messages": [
