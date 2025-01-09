@@ -77,7 +77,7 @@ GeminiTextPrompter >> prompt: aText [
 		  ifPresent: [ :candidates |
 				  ( candidates collect: [ :candidate | ( candidate at: 'content' ) at: 'parts' ] ) flattened ]
 		  ifAbsent: [
-				  SystemConfigurationFailed signal: ( 'Gemini responded with error: <1s>' expandMacrosWith:
+				  AssertionFailed signal: ( 'Gemini responded with error: <1s>' expandMacrosWith:
 						    ( ( responseEntity at: 'error' ) at: 'message' ) )
 			  ]
 ]
@@ -99,7 +99,7 @@ GeminiTextPrompter >> prompt: aText whenListeningTo: aBase64Audio with: aMimeTyp
 		  ifPresent: [ :candidates |
 				  ( candidates collect: [ :candidate | ( candidate at: 'content' ) at: 'parts' ] ) flattened ]
 		  ifAbsent: [
-				  SystemConfigurationFailed signal: ( 'Gemini responded with error: <1s>' expandMacrosWith:
+				  AssertionFailed signal: ( 'Gemini responded with error: <1s>' expandMacrosWith:
 						    ( ( responseEntity at: 'error' ) at: 'message' ) )
 			  ]
 ]
