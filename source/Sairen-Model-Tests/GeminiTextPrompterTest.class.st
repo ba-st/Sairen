@@ -42,6 +42,22 @@ GeminiTextPrompterTest >> response [
 ]
 
 { #category : 'tests' }
+GeminiTextPrompterTest >> testConfiguring [
+
+	| prompter response |
+
+	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
+	prompter
+		changeMaximumOutputTokensTo: 200;
+		changeTemperatureTo: 0.1;
+		changeStopSequencesTo: { 'death' . 'destruction' };
+		changeTopTokenAccumulatedProbabilityTo: 0.7;
+		changeTopTokenIndividualProbabilityTo: 5.
+	response := prompter prompt: 'Where is Carmen Sandiego?'.
+	self assert: response equals: { 'Rome' }
+]
+
+{ #category : 'tests' }
 GeminiTextPrompterTest >> testPromptingTextAndAudio [
 
 	| prompter response |
