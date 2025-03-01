@@ -9,15 +9,19 @@ Class {
 BaselineOfSairen >> baseline: spec [
 
 	<baseline>
-	spec for: #pharo do: [ 
-		self
-			setUpDependencies: spec;
-			setUpPackages: spec.
+	spec for: #pharo do: [
+			self
+				setUpDependencies: spec;
+				setUpPackages: spec.
 
-		spec
-			group: 'Development' with: #( 'Tests' );
-			group: 'CI' with: 'Tests';
-			group: 'default' with: 'Development' ]
+			spec
+				group: 'Development' with: #( 'Tests' 'Willow-Development' );
+				group: 'Examples'
+				with:
+					#( 'Deployment' 'Stargate-Examples' 'Willow-Bootstrap-Deployment' 'Willow-SpinKit-Deployment' );
+				group: 'CI' with: 'Tests';
+				group: 'default' with: 'Development'
+		]
 ]
 
 { #category : 'accessing' }
@@ -36,7 +40,18 @@ BaselineOfSairen >> setUpDependencies: spec [
 		project: 'Buoy-Tools' copyFrom: 'Buoy' with: [ spec loads: 'Tools' ].
 	spec
 		baseline: 'ZincHTTPComponents' with: [ spec repository: 'github://svenvc/zinc' ];
-		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ]
+		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ].
+	spec
+		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v15' ];
+		project: 'Willow-Development' copyFrom: 'Willow' with: [ spec loads: 'Development' ].
+	spec
+		baseline: 'WillowBootstrap' with: [ spec repository: 'github://ba-st/Willow-Bootstrap:v14' ];
+		project: 'Willow-Bootstrap-Deployment'
+		copyFrom: 'WillowBootstrap'
+		with: [ spec loads: 'Deployment' ].
+	spec
+		baseline: 'WillowSpinKit' with: [ spec repository: 'github://ba-st/Willow-SpinKit:v10' ];
+		project: 'Willow-SpinKit-Deployment' copyFrom: 'WillowSpinKit' with: [ spec loads: 'Deployment' ]
 ]
 
 { #category : 'baselines' }
