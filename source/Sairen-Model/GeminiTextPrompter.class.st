@@ -80,7 +80,7 @@ GeminiTextPrompter >> flattenedPartsFrom: responseEntity [
 GeminiTextPrompter >> httpClient [
 
 	^ clientProvider value
-		  url: self baseUrl / '/models/gemini-1.5-flash:generateContent' ? ( #key -> apiKey );
+		  url: self baseUrl / '/models/gemini-2.0-flash:generateContent' ? ( #key -> apiKey );
 		  yourself
 ]
 
