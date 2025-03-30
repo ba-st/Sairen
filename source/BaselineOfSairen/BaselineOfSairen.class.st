@@ -37,6 +37,11 @@ BaselineOfSairen >> setUpDependencies: spec [
 		project: 'Buoy-SUnit' copyFrom: 'Buoy' with: [ spec loads: 'Dependent-SUnit-Extensions' ];
 		project: 'Buoy-Tools' copyFrom: 'Buoy' with: [ spec loads: 'Tools' ].
 	spec
+		baseline: 'Boardwalk' with: [ spec repository: 'github://ba-st/Boardwalk:v7' ];
+		project: 'Boardwalk-SUnit'
+		copyFrom: 'Boardwalk'
+		with: [ spec loads: 'Dependent-SUnit-Extensions' ].
+	spec
 		baseline: 'ZincHTTPComponents' with: [ spec repository: 'github://svenvc/zinc' ];
 		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ].
 	spec
@@ -67,6 +72,6 @@ BaselineOfSairen >> setUpPackages: spec [
 		package: 'Sairen-Model-Tests' with: [ spec requires: #( 'Sairen-Model' ) ];
 		group: 'Tests' with: 'Sairen-Model-Tests';
 		package: 'Sairen-Examples-Tests'
-		with: [ spec requires: #( 'Dependent-SUnit-Extensions' 'Sairen-Examples' ) ];
+		with: [ spec requires: #( 'Boardwalk-SUnit' 'Sairen-Examples' ) ];
 		group: 'Tests' with: 'Sairen-Examples-Tests'
 ]
