@@ -15,11 +15,9 @@ BaselineOfSairen >> baseline: spec [
 				setUpPackages: spec.
 
 			spec
-				group: 'Development' with: #( 'Tests' 'Willow-Development' );
-				group: 'Examples'
-				with:
-					#( 'Deployment' 'Stargate-Examples' 'Willow-Bootstrap-Deployment' 'Willow-SpinKit-Deployment' );
 				group: 'CI' with: 'Tests';
+				group: 'Examples' with: #( 'Deployment' 'Sairen-Examples' );
+				group: 'Development' with: #( 'Tests' );
 				group: 'default' with: 'Development'
 		]
 ]
@@ -60,6 +58,15 @@ BaselineOfSairen >> setUpPackages: spec [
 	spec
 		package: 'Sairen-Model' with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' ) ];
 		group: 'Deployment' with: 'Sairen-Model';
+		package: 'Sairen-Examples' with: [
+				spec requires:
+						#( 'Sairen-Model' 'Willow-Development' 'Willow-Bootstrap-Deployment'
+						   'Willow-SpinKit-Deployment' )
+			];
+		group: 'Examples' with: 'Sairen-Examples';
 		package: 'Sairen-Model-Tests' with: [ spec requires: #( 'Sairen-Model' ) ];
-		group: 'Tests' with: 'Sairen-Model-Tests'
+		group: 'Tests' with: 'Sairen-Model-Tests';
+		package: 'Sairen-Examples-Tests'
+		with: [ spec requires: #( 'Dependent-SUnit-Extensions' 'Sairen-Examples' ) ];
+		group: 'Tests' with: 'Sairen-Examples-Tests'
 ]
