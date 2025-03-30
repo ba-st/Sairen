@@ -16,6 +16,7 @@ BaselineOfSairen >> baseline: spec [
 
 			spec
 				group: 'CI' with: 'Tests';
+				group: 'Dependent-SUnit-Extensions' with: 'Willow-SUnit';
 				group: 'Examples' with: #( 'Deployment' 'Sairen-Examples' );
 				group: 'Development' with: #( 'Tests' );
 				group: 'default' with: 'Development'
@@ -33,20 +34,14 @@ BaselineOfSairen >> setUpDependencies: spec [
 
 	spec
 		baseline: 'Buoy' with: [ spec repository: 'github://ba-st/Buoy:v8' ];
-		project: 'Buoy-Deployment' copyFrom: 'Buoy' with: [ spec loads: 'Deployment' ];
-		project: 'Buoy-SUnit' copyFrom: 'Buoy' with: [ spec loads: 'Dependent-SUnit-Extensions' ];
-		project: 'Buoy-Tools' copyFrom: 'Buoy' with: [ spec loads: 'Tools' ].
-	spec
-		baseline: 'Boardwalk' with: [ spec repository: 'github://ba-st/Boardwalk:v7' ];
-		project: 'Boardwalk-SUnit'
-		copyFrom: 'Boardwalk'
-		with: [ spec loads: 'Dependent-SUnit-Extensions' ].
+		project: 'Buoy-Deployment' copyFrom: 'Buoy' with: [ spec loads: 'Deployment' ].
 	spec
 		baseline: 'ZincHTTPComponents' with: [ spec repository: 'github://svenvc/zinc' ];
 		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ].
 	spec
 		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v15' ];
-		project: 'Willow-Development' copyFrom: 'Willow' with: [ spec loads: 'Development' ].
+		project: 'Willow-Deployment' copyFrom: 'Willow' with: [ spec loads: 'Deployment' ];
+		project: 'Willow-SUnit' copyFrom: 'Willow' with: [ spec loads: 'Dependent-SUnit-Extensions' ].
 	spec
 		baseline: 'WillowBootstrap' with: [ spec repository: 'github://ba-st/Willow-Bootstrap:v14' ];
 		project: 'Willow-Bootstrap-Deployment'
@@ -65,13 +60,12 @@ BaselineOfSairen >> setUpPackages: spec [
 		group: 'Deployment' with: 'Sairen-Model';
 		package: 'Sairen-Examples' with: [
 				spec requires:
-						#( 'Sairen-Model' 'Willow-Development' 'Willow-Bootstrap-Deployment'
+						#( 'Sairen-Model' 'Willow-Deployment' 'Willow-Bootstrap-Deployment'
 						   'Willow-SpinKit-Deployment' )
 			];
 		group: 'Examples' with: 'Sairen-Examples';
 		package: 'Sairen-Model-Tests' with: [ spec requires: #( 'Sairen-Model' ) ];
 		group: 'Tests' with: 'Sairen-Model-Tests';
-		package: 'Sairen-Examples-Tests'
-		with: [ spec requires: #( 'Boardwalk-SUnit' 'Sairen-Examples' ) ];
+		package: 'Sairen-Examples-Tests' with: [ spec requires: #( 'Willow-SUnit' 'Sairen-Examples' ) ];
 		group: 'Tests' with: 'Sairen-Examples-Tests'
 ]
