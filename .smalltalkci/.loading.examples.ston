@@ -1,0 +1,14 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'Sairen',
+      #directory : '../source',
+      #load : [ 'Examples' ],
+      #platforms : [ #pharo ],
+      #failOn : [ #Warning ]
+    }
+  ],
+  #testing : {
+    #failOnZeroTests : false
+  }
+}
