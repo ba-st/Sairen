@@ -1,0 +1,17 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'Sairen',
+      #directory : '../source',
+      #load : [ 'Tests' ],
+      #platforms : [  #pharo ],
+      #failOn : [ #Warning ]
+    }
+  ],
+  #testing : {
+    #coverage : {
+      #packages : [ 'Sairen*' ],
+      #format: #lcov
+    }
+  }
+}
