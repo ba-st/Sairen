@@ -39,6 +39,9 @@ BaselineOfSairen >> setUpDependencies: spec [
 		baseline: 'ZincHTTPComponents' with: [ spec repository: 'github://svenvc/zinc' ];
 		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ].
 	spec
+		baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON:master/repository' ];
+		project: 'NeoJSON-Core' copyFrom: 'NeoJSON' with: [ spec loads: 'core' ].
+	spec
 		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v15' ];
 		project: 'Willow-Deployment' copyFrom: 'Willow' with: [ spec loads: 'Deployment' ];
 		project: 'Willow-SUnit' copyFrom: 'Willow' with: [ spec loads: 'Dependent-SUnit-Extensions' ].
@@ -56,7 +59,8 @@ BaselineOfSairen >> setUpDependencies: spec [
 BaselineOfSairen >> setUpPackages: spec [
 
 	spec
-		package: 'Sairen-Model' with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' ) ];
+		package: 'Sairen-Model'
+		with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' 'NeoJSON-Core' ) ];
 		group: 'Deployment' with: 'Sairen-Model';
 		package: 'Sairen-Examples' with: [
 				spec requires:
