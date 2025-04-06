@@ -60,9 +60,7 @@ SairenExampleWebView class >> stop [
 { #category : 'private - accessing' }
 SairenExampleWebView >> audioSourceQuery [
 
-	^ ( JQueryFinder new parent
-		    children: 'audio';
-		    builtQuery ) propertyAt: 'src'
+	^ ( JSStream new javascript jQuery this parent children: 'audio' ) propertyAt: 'src'
 ]
 
 { #category : 'accessing' }
