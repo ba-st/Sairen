@@ -79,7 +79,18 @@ SairenExampleCascadingStyleSheetBuilder >> declarePoemStyleIn: aBuilder [
 					margin: 10 px;
 					fontSize: #large;
 					fontFamily: #sansSerif;
-					height: 5 em
+					height: 5 em;
+					display: #inline
+			];
+		declareRuleSetFor: [ :selector |
+			( selector class: self sairenApps >> #poem ) > selector div > selector image ]
+		with: [ :style |
+				style
+					display: #block;
+					maxHeight: 20 vh;
+					margin: #auto;
+					marginTop: 10 px;
+					marginBottom: 10 px
 			]
 ]
 

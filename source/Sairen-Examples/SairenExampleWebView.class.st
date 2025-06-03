@@ -9,7 +9,8 @@ Class {
 		'apiKeyView',
 		'listenButton',
 		'translationContainer',
-		'translation'
+		'translation',
+		'poemVisualization'
 	],
 	#category : 'Sairen-Examples-Application',
 	#package : 'Sairen-Examples',
@@ -103,6 +104,14 @@ SairenExampleWebView >> contentView [
 ]
 
 { #category : 'private - accessing' }
+SairenExampleWebView >> geminiImagePrompter [
+
+	^ ( GeminiBase64ImagePrompter authenticatedWith: apiKeyView contents )
+		  changeTemperatureTo: 0.1;
+		  yourself
+]
+
+{ #category : 'private - accessing' }
 SairenExampleWebView >> geminiTextPrompter [
 
 	^ ( GeminiTextPrompter authenticatedWith: apiKeyView contents )
@@ -151,9 +160,11 @@ SairenExampleWebView >> initializeGeneratedPoemContainer [
 
 	generatedPoemContainer := self componentSupplier
 		                          divisionContainerWrapping: [ :canvas |
-			                          poemLines
-				                          do: [ :line | canvas span: line ]
-				                          separatedBy: [ canvas break ] ]
+				                          self renderPoemVisualizationOn: canvas.
+				                          poemLines
+					                          do: [ :line | canvas span: line ]
+					                          separatedBy: [ canvas break ]
+			                          ]
 		                          applying: [  ]
 ]
 
@@ -209,12 +220,27 @@ SairenExampleWebView >> mimeTypeFrom: aBase64Audio [
 { #category : 'private - accessing' }
 SairenExampleWebView >> poemPromptFor: aSubject [
 
-	^ 'Context: You are an award winning poet, who also admires the programming language Smalltalk. There is a poem contest, where you want it to participate to create a witty poem, that also references some distinctive aspect of Smalltalk, without making explicit mention of the language.
+	^ 'Context: You are an award winning poet, who also admires the programming language Smalltalk. There is a poem contest, where you want to participate to create a witty poem, that also references some distinctive aspect of Smalltalk, without making explicit mention of the language.
 	
 Task: You are participating in a challenge where you have to write a poem. The subject is "<1s>". The poem must be in whatever language the subject seems to imply. It must have 4 sentences.
 
-Restrictions: The Poem must use words that are suitable and understandable by a 10 year old. The answer must not include any additional information nor explanation.'
+Restrictions: The poem must use words that are suitable and understandable by a 10 year old. The answer must not include any additional information nor explanation.'
 		  expandMacrosWith: aSubject
+]
+
+{ #category : 'private - accessing' }
+SairenExampleWebView >> poemVisualizationPrompt [
+
+	^ 'Context: You are an award winning illustrator of abstract art. There is a drawing contest, where you want to participate.
+	
+Task: You are participating in a challenge where you have to draw an evocative image, inspired by a poem. The lines of the poem are "<1s>".
+
+Restrictions:
+- The image must be as small as possible, with a 1:3 ratio.
+- The image must be suitable for kids, teenagers and adults.
+- The image must not contain any text.
+- The answer must not include any additional information nor explanation.'
+		  expandMacrosWith: ( ( CollectionFormatter separatingWith: ' ' ) format: poemLines )
 ]
 
 { #category : 'private - rendering' }
@@ -245,7 +271,8 @@ SairenExampleWebView >> renderPoemExplanationOn: aCanvas [
 
 	aCanvas paragraph: [
 			aCanvas
-				span: 'This section allows writing any subject, and get a small poem about it.';
+				span:
+					'This section allows writing any subject, and get a small poem about it, along with an image inspired by it.';
 				break;
 				span:
 					( 'To learn more about how this is done, check <1p>' expandMacrosWith: thisContext contextClass )
@@ -264,6 +291,13 @@ SairenExampleWebView >> renderPoemGeneratorOn: aCanvas [
 					render: generatedPoemContainer
 			]
 		applying: [ :div | div addClass sairenApps poem ]
+]
+
+{ #category : 'private - rendering' }
+SairenExampleWebView >> renderPoemVisualizationOn: aCanvas [
+
+	aCanvas render:
+		( ImageWebView ofType: WAMimeType imagePng base64EncodedAs: poemVisualization applying: [  ] )
 ]
 
 { #category : 'private - rendering' }
@@ -324,8 +358,14 @@ SairenExampleWebView >> translationPrompt [
 SairenExampleWebView >> updatePoem [
 
 	subjectView contents
-		ifEmpty: [ poemLines := #(  ) ]
-		ifNotEmpty: [ :subject | self updatePoemFor: subject ]
+		ifEmpty: [
+				poemLines := #(  ).
+				poemVisualization := ''
+			]
+		ifNotEmpty: [ :subject |
+				self updatePoemFor: subject.
+				self updatePoemVisualization
+			]
 ]
 
 { #category : 'private - processing' }
@@ -338,6 +378,17 @@ SairenExampleWebView >> updatePoemFor: aSubject [
 		                         on: AssertionFailed
 		                         do: [ :ex | ex return: ( Array with: ex messageText ) ].
 	poemLines := generativeDescription any substrings: ( Array with: Character cr with: Character lf )
+]
+
+{ #category : 'private - processing' }
+SairenExampleWebView >> updatePoemVisualization [
+
+	| prompt |
+
+	prompt := self poemVisualizationPrompt.
+	poemVisualization := [ self geminiImagePrompter prompt: prompt ]
+		                     on: AssertionFailed
+		                     do: [ :ex | ex return: ( Array with: ex messageText ) ]
 ]
 
 { #category : 'private - processing' }
