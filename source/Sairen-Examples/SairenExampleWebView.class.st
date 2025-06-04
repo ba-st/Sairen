@@ -106,6 +106,7 @@ SairenExampleWebView >> contentView [
 { #category : 'private - accessing' }
 SairenExampleWebView >> geminiImagePrompter [
 
+	<ignoreForCoverage>
 	^ ( GeminiBase64ImagePrompter authenticatedWith: apiKeyView contents )
 		  changeTemperatureTo: 0.1;
 		  yourself
@@ -114,6 +115,7 @@ SairenExampleWebView >> geminiImagePrompter [
 { #category : 'private - accessing' }
 SairenExampleWebView >> geminiTextPrompter [
 
+	<ignoreForCoverage>
 	^ ( GeminiTextPrompter authenticatedWith: apiKeyView contents )
 		  changeMaximumOutputTokensTo: 200;
 		  changeTemperatureTo: 0.1;
@@ -220,6 +222,7 @@ SairenExampleWebView >> mimeTypeFrom: aBase64Audio [
 { #category : 'private - accessing' }
 SairenExampleWebView >> poemPromptFor: aSubject [
 
+	<ignoreForCoverage>
 	^ 'Context: You are an award winning poet, who also admires the programming language Smalltalk. There is a poem contest, where you want to participate to create a witty poem, that also references some distinctive aspect of Smalltalk, without making explicit mention of the language.
 	
 Task: You are participating in a challenge where you have to write a poem. The subject is "<1s>". The poem must be in whatever language the subject seems to imply. It must have 4 sentences.
@@ -231,6 +234,7 @@ Restrictions: The poem must use words that are suitable and understandable by a 
 { #category : 'private - accessing' }
 SairenExampleWebView >> poemVisualizationPrompt [
 
+	<ignoreForCoverage>
 	^ 'Context: You are an award winning illustrator of abstract art. There is a drawing contest, where you want to participate.
 	
 Task: You are participating in a challenge where you have to draw an evocative image, inspired by a poem. The lines of the poem are "<1s>".
@@ -239,8 +243,8 @@ Restrictions:
 - The image must be as small as possible, with a 1:3 ratio.
 - The image must be suitable for kids, teenagers and adults.
 - The image must not contain any text.
-- The answer must not include any additional information nor explanation.'
-		  expandMacrosWith: ( ( CollectionFormatter separatingWith: ' ' ) format: poemLines )
+- The answer must not include any additional information nor explanation.' expandMacrosWith:
+		  ( ( CollectionFormatter separatingWith: ' ' ) format: poemLines )
 ]
 
 { #category : 'private - rendering' }
@@ -371,6 +375,7 @@ SairenExampleWebView >> updatePoem [
 { #category : 'private - processing' }
 SairenExampleWebView >> updatePoemFor: aSubject [
 
+	<ignoreForCoverage>
 	| prompt generativeDescription |
 
 	prompt := self poemPromptFor: aSubject.
@@ -383,6 +388,7 @@ SairenExampleWebView >> updatePoemFor: aSubject [
 { #category : 'private - processing' }
 SairenExampleWebView >> updatePoemVisualization [
 
+	<ignoreForCoverage>
 	| prompt |
 
 	prompt := self poemVisualizationPrompt.
@@ -394,6 +400,7 @@ SairenExampleWebView >> updatePoemVisualization [
 { #category : 'private - processing' }
 SairenExampleWebView >> updateTranslationFrom: aBase64Audio [
 
+	<ignoreForCoverage>
 	translation := [
 		               self geminiTextPrompter
 			               prompt: self translationPrompt
