@@ -92,5 +92,15 @@ GeminiBase64ImagePrompter >> promptUsing: anEntity [
 	| responseEntity |
 
 	responseEntity := self postResponseFor: anEntity.
-	^ responseEntity candidates first content parts last inlineData data
+	^ responseEntity
+		  at: #candidates
+		  ifPresent: [ :candidates | candidates first content parts last inlineData data ]
+		  ifAbsent: [
+				  responseEntity
+					  at: #error
+					  ifPresent: [ :error | AssertionFailed signal: error message ]
+					  ifAbsent: [
+							  AssertionFailed signal:
+								  ( 'Unexpected response structure: <1s>' expandMacrosWith: responseEntity ) ]
+			  ]
 ]
