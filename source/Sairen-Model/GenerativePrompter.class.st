@@ -1,24 +1,24 @@
 Class {
-	#name : 'GenerativeTextPrompter',
+	#name : 'GenerativePrompter',
 	#superclass : 'Object',
 	#category : 'Sairen-Model',
 	#package : 'Sairen-Model'
 }
 
 { #category : 'instance creation' }
-GenerativeTextPrompter class >> authenticatedWith: anAPIKey [
+GenerativePrompter class >> authenticatedWith: anAPIKey [
 
 	^ self connectingWith: self defaultHTTPClientProvider authenticatedWith: anAPIKey
 ]
 
 { #category : 'instance creation' }
-GenerativeTextPrompter class >> connectingWith: aClientProvider authenticatedWith: anAPIKey [
+GenerativePrompter class >> connectingWith: aClientProvider authenticatedWith: anAPIKey [
 
 	^ self new initializeConnectingWith: aClientProvider using: anAPIKey
 ]
 
 { #category : 'private - accessing' }
-GenerativeTextPrompter class >> defaultHTTPClientProvider [
+GenerativePrompter class >> defaultHTTPClientProvider [
 
 	^ [
 		  ZnClient new
@@ -28,13 +28,13 @@ GenerativeTextPrompter class >> defaultHTTPClientProvider [
 ]
 
 { #category : 'initialization' }
-GenerativeTextPrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
+GenerativePrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
-GenerativeTextPrompter >> prompt: aText [
+GenerativePrompter >> prompt: aText [
 
 	^ self subclassResponsibility
 ]

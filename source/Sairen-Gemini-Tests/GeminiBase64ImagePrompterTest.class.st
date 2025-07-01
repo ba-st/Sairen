@@ -1,8 +1,8 @@
 Class {
 	#name : 'GeminiBase64ImagePrompterTest',
 	#superclass : 'TestCase',
-	#category : 'Sairen-Model-Tests',
-	#package : 'Sairen-Model-Tests'
+	#category : 'Sairen-Gemini-Tests',
+	#package : 'Sairen-Gemini-Tests'
 }
 
 { #category : 'private - accessing' }

@@ -1,20 +1,9 @@
 Class {
 	#name : 'GeminiTextPrompter',
-	#superclass : 'GenerativeTextPrompter',
-	#instVars : [
-		'clientProvider',
-		'apiKey',
-		'configurationOptional'
-	],
-	#category : 'Sairen-Model',
-	#package : 'Sairen-Model'
+	#superclass : 'GeminiPrompterBehavior',
+	#category : 'Sairen-Gemini',
+	#package : 'Sairen-Gemini'
 }
-
-{ #category : 'private - accessing' }
-GeminiTextPrompter >> baseUrl [
-
-	^ 'https://generativelanguage.googleapis.com/v1beta' asUrl
-]
 
 { #category : 'configuring' }
 GeminiTextPrompter >> changeMaximumOutputTokensTo: aNumber [
@@ -28,13 +17,6 @@ GeminiTextPrompter >> changeStopSequencesTo: someWords [
 	"stopSequences specifies the set of character sequences (up to 5) that will stop output generation. If specified, the API will stop at the first appearance of a stop_sequence. The stop sequence won't be included as part of the response."
 
 	self currentConfiguration at: 'stopSequences' put: someWords
-]
-
-{ #category : 'configuring' }
-GeminiTextPrompter >> changeTemperatureTo: aNumber [
-	"temperature controls the randomness of the output. Use higher values for more creative responses, and lower values for more deterministic responses. Values can range from [0.0, 2.0]."
-
-	self currentConfiguration at: 'temperature' put: aNumber
 ]
 
 { #category : 'configuring' }
@@ -52,18 +34,6 @@ GeminiTextPrompter >> changeTopTokenIndividualProbabilityTo: aNumber [
 ]
 
 { #category : 'private - accessing' }
-GeminiTextPrompter >> currentConfiguration [
-
-	^ configurationOptional withContentDo: [ :current | current ] ifUnused: [
-			  | emptyConfiguration |
-
-			  emptyConfiguration := Dictionary new.
-			  configurationOptional := Optional containing: emptyConfiguration.
-			  emptyConfiguration
-		  ]
-]
-
-{ #category : 'private - accessing' }
 GeminiTextPrompter >> flattenedPartsFrom: responseEntity [
 
 	^ responseEntity
@@ -77,37 +47,6 @@ GeminiTextPrompter >> flattenedPartsFrom: responseEntity [
 ]
 
 { #category : 'private - accessing' }
-GeminiTextPrompter >> httpClient [
-
-	^ clientProvider value
-		  url: self baseUrl / '/models/gemini-2.0-flash:generateContent' ? ( #key -> apiKey );
-		  yourself
-]
-
-{ #category : 'initialization' }
-GeminiTextPrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
-
-	clientProvider := aClientProvider.
-	apiKey := anAPIKey.
-	configurationOptional := Optional unused
-]
-
-{ #category : 'private - accessing' }
-GeminiTextPrompter >> jsonEntityFor: aText [
-
-	| parameters |
-
-	parameters := { ( 'contents'
-		                -> { { ( 'parts' -> { { ( 'text' -> aText ) } asDictionary } ) } asDictionary } ) }
-		              asDictionary.
-		
-	configurationOptional withContentDo: [ :configuration |
-			parameters at: 'generationConfig' put: configuration ].
-		
-	^ ZnEntity json: parameters asJson
-]
-
-{ #category : 'private - accessing' }
 GeminiTextPrompter >> jsonEntityFor: aText whenListeningTo: aBase64Audio with: aMimeType [
 
 	^ ZnEntity json: ( '{
@@ -118,22 +57,9 @@ GeminiTextPrompter >> jsonEntityFor: aText whenListeningTo: aBase64Audio with: a
 ]
 
 { #category : 'private - accessing' }
-GeminiTextPrompter >> postResponseFor: anEntity [
+GeminiTextPrompter >> model [
 
-	| client |
-
-	client := self httpClient.
-	client
-		entity: anEntity;
-		contentType: ZnMimeType applicationJson.
-	client post.
-	^ NeoJSONObject fromString: client response entity
-]
-
-{ #category : 'accessing' }
-GeminiTextPrompter >> prompt: aText [
-
-	^ self promptUsing: ( self jsonEntityFor: aText )
+	^ 'gemini-2.0-flash'
 ]
 
 { #category : 'accessing' }
