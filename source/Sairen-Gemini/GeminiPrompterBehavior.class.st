@@ -97,3 +97,9 @@ GeminiPrompterBehavior >> prompt: aText [
 
 	^ self promptUsing: ( self jsonEntityFor: aText )
 ]
+
+{ #category : 'private - accessing' }
+GeminiPrompterBehavior >> promptUsing: anEntity [
+
+	^ self subclassResponsibility
+]
