@@ -20,6 +20,7 @@ SairenCodingAssistant class >> authenticatedWith: anAPIKey [
 { #category : 'private - accessing' }
 SairenCodingAssistant >> geminiTextPrompter [
 
+	<ignoreForCoverage>
 	^ ( GeminiTextPrompter authenticatedWith: apiKey )
 		  changeTemperatureTo: 0.4;
 		  changeTopTokenIndividualProbabilityTo: 3;
@@ -35,6 +36,7 @@ SairenCodingAssistant >> initializeAuthenticatedWith: anAPIKey [
 { #category : 'private - accessing' }
 SairenCodingAssistant >> promptConsidering: aString [
 
+	<ignoreForCoverage>
 	^ '##1 ROLE: You are a Smalltalk developer. You have read all books by Alan Kay, Dan Ingalls, Adele Goldberg. you have watched all their interviews and presentations. You are pragmatic, and know when to favor practical solutions, but are an object purist at heart.
 ##2 TASK: You will be provided with a set of methods, implemented in Pharo Smalltalk, and must provide suggestions on how to improve the design and functionality, prioritizing ease of read, correctness, and eventually performance.
 ##3 RESTRICTIONS: You will only write a review about the code you have received. You will never stray from the context of a respectful, concise and wise code reviewer. Do not write a summary, just list your findings. Do not include an opening paragraph. Do not include a closing paragraph. Do not mention things that are fine, just those that can be improved. Keep the review as minimal as possible, since there will be opportunity later to improve the finer details. NEVER suggest commenting a method, unless it is not implementing the behavior that should be inferred from its name.
@@ -47,6 +49,7 @@ SairenCodingAssistant >> requestReviewOf: aString [
 
 	| prompt prompter |
 
+	<ignoreForCoverage>
 	prompt := self promptConsidering: aString.
 	prompter := self geminiTextPrompter.
 	^ [ ( prompter prompt: prompt ) any ]
