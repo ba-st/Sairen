@@ -1,30 +1,30 @@
 Class {
-	#name : 'GeminiBase64ImagePrompter',
-	#superclass : 'GenerativeTextPrompter',
+	#name : 'GeminiPrompterBehavior',
+	#superclass : 'GenerativePrompter',
 	#instVars : [
 		'clientProvider',
 		'apiKey',
 		'configurationOptional'
 	],
-	#category : 'Sairen-Model',
-	#package : 'Sairen-Model'
+	#category : 'Sairen-Gemini',
+	#package : 'Sairen-Gemini'
 }
 
 { #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> baseUrl [
+GeminiPrompterBehavior >> baseUrl [
 
 	^ 'https://generativelanguage.googleapis.com/v1beta' asUrl
 ]
 
 { #category : 'configuring' }
-GeminiBase64ImagePrompter >> changeTemperatureTo: aNumber [
+GeminiPrompterBehavior >> changeTemperatureTo: aNumber [
 	"temperature controls the randomness of the output. Use higher values for more creative responses, and lower values for more deterministic responses. Values can range from [0.0, 2.0]."
 
 	self currentConfiguration at: 'temperature' put: aNumber
 ]
 
 { #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> currentConfiguration [
+GeminiPrompterBehavior >> currentConfiguration [
 
 	^ configurationOptional withContentDo: [ :current | current ] ifUnused: [
 			  | emptyConfiguration |
@@ -36,24 +36,24 @@ GeminiBase64ImagePrompter >> currentConfiguration [
 ]
 
 { #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> httpClient [
+GeminiPrompterBehavior >> httpClient [
 
 	^ clientProvider value
-		  url: self baseUrl / '/models/gemini-2.0-flash-preview-image-generation:generateContent' ? ( #key -> apiKey );
+		  url: self baseUrl / 'models' / ( '<1s>:<2s>' expandMacrosWith: self model with: self method )
+			  ? ( #key -> apiKey );
 		  yourself
 ]
 
 { #category : 'initialization' }
-GeminiBase64ImagePrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
+GeminiPrompterBehavior >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	clientProvider := aClientProvider.
 	apiKey := anAPIKey.
-	configurationOptional := Optional unused.
-	self currentConfiguration at: 'responseModalities' put: { 'TEXT' . 'IMAGE' }
+	configurationOptional := Optional unused
 ]
 
 { #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> jsonEntityFor: aText [
+GeminiPrompterBehavior >> jsonEntityFor: aText [
 
 	| parameters |
 
@@ -68,7 +68,19 @@ GeminiBase64ImagePrompter >> jsonEntityFor: aText [
 ]
 
 { #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> postResponseFor: anEntity [
+GeminiPrompterBehavior >> method [
+
+	^ 'generateContent'
+]
+
+{ #category : 'private - accessing' }
+GeminiPrompterBehavior >> model [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'private - accessing' }
+GeminiPrompterBehavior >> postResponseFor: anEntity [
 
 	| client |
 
@@ -81,16 +93,13 @@ GeminiBase64ImagePrompter >> postResponseFor: anEntity [
 ]
 
 { #category : 'accessing' }
-GeminiBase64ImagePrompter >> prompt: aText [
+GeminiPrompterBehavior >> prompt: aText [
 
 	^ self promptUsing: ( self jsonEntityFor: aText )
 ]
 
 { #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> promptUsing: anEntity [
+GeminiPrompterBehavior >> promptUsing: anEntity [
 
-	| responseEntity |
-
-	responseEntity := self postResponseFor: anEntity.
-	^ responseEntity candidates first content parts last inlineData data
+	^ self subclassResponsibility
 ]

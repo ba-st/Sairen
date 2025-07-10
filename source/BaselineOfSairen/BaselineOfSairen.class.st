@@ -62,14 +62,16 @@ BaselineOfSairen >> setUpPackages: spec [
 		package: 'Sairen-Model'
 		with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' 'NeoJSON-Core' ) ];
 		group: 'Deployment' with: 'Sairen-Model';
+		package: 'Sairen-Gemini' with: [ spec requires: #( 'Sairen-Model' ) ];
+		group: 'Deployment' with: 'Sairen-Gemini';
 		package: 'Sairen-Examples' with: [
 				spec requires:
 						#( 'Sairen-Model' 'Willow-Deployment' 'Willow-Bootstrap-Deployment'
 						   'Willow-SpinKit-Deployment' )
 			];
 		group: 'Examples' with: 'Sairen-Examples';
-		package: 'Sairen-Model-Tests' with: [ spec requires: #( 'Sairen-Model' ) ];
-		group: 'Tests' with: 'Sairen-Model-Tests';
+		package: 'Sairen-Gemini-Tests' with: [ spec requires: #( 'Sairen-Gemini' ) ];
+		group: 'Tests' with: 'Sairen-Gemini-Tests';
 		package: 'Sairen-Examples-Tests' with: [ spec requires: #( 'Willow-SUnit' 'Sairen-Examples' ) ];
 		group: 'Tests' with: 'Sairen-Examples-Tests'
 ]
