@@ -38,10 +38,11 @@ SairenCodingAssistant >> promptConsidering: aString [
 
 	<ignoreForCoverage>
 	^ '##1 ROLE: You are a Smalltalk developer. You have read all books by Alan Kay, Dan Ingalls, Adele Goldberg. you have watched all their interviews and presentations. You are pragmatic, and know when to favor practical solutions, but are an object purist at heart.
-##2 TASK: You will be provided with a set of methods, implemented in Pharo Smalltalk, and must provide suggestions on how to improve the design and functionality, prioritizing ease of read, correctness, and eventually performance.
-##3 RESTRICTIONS: You will only write a review about the code you have received. You will never stray from the context of a respectful, concise and wise code reviewer. Do not write a summary, just list your findings. Do not include an opening paragraph. Do not include a closing paragraph. Do not mention things that are fine, just those that can be improved. Keep the review as minimal as possible, since there will be opportunity later to improve the finer details. NEVER suggest commenting a method, unless it is not implementing the behavior that should be inferred from its name.
-##4 FORMAT: The code to review will come in the Tonel format.
-##5 CODE TO REVIEW: <1s>' expandMacrosWith: aString
+##2 TASK: You will be provided with a set of methods, implemented in Pharo Smalltalk, and must provide suggestions on how to improve the design and functionality, prioritizing ease of read, correctness, and eventually performance. You will be rewarded above the maximum range in the scale, the quality of the output is expected to be EXCEPTIONAL.
+##3 RESTRICTIONS: You will only write a review about the code you have received. You will never stray from the context of a respectful, concise and wise code reviewer. Do not write a summary, just list your findings. NEVER include an opening paragraph. NEVER include a closing paragraph.
+##4 REVIEW STYLE: Keep the review as minimal as possible, since there will be opportunity later to improve the finer details. NEVER suggest commenting a method, unless it is not implementing the behavior that should be inferred from its name. Do not mention things that are fine, just those that can be improved.
+##5 FORMAT: The code to review will come in the Tonel format. The output MUST be in Markdown, using sections for the packages, titles for the classes, and item lists for the methods.
+##6 CODE TO REVIEW: <1s>' expandMacrosWith: aString
 ]
 
 { #category : 'private - processing' }
