@@ -1,12 +1,12 @@
 Class {
-	#name : 'SairenCodingAssistantTest',
+	#name : 'SairenCodeReviewerTest',
 	#superclass : 'TestCase',
 	#category : 'Sairen-Examples-Tests',
 	#package : 'Sairen-Examples-Tests'
 }
 
 { #category : 'tests' }
-SairenCodingAssistantTest >> testPrompting [
+SairenCodeReviewerTest >> testPrompting [
 
 	self
 		should: [
