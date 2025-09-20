@@ -47,20 +47,22 @@ the specifics of communicating with the Gemini models.
 - **Prompter-based Interaction:** The main way to use the library
 is through "prompter" objects.
 These objects, such as `GeminiTextPrompter` and `GeminiBase64ImagePrompter`,
-are configured with an API key and specific parameters like temperature and maximum tokens.
-They have a `prompt:` method that takes a string or other data and returns the generated content from the LLM.
+are configured with an API key and specific parameters like
+temperature and maximum tokens.
+They have a `prompt:` method that takes a string or other data
+and returns the generated content from the LLM.
 
 - **Application-level Wrappers:** The project includes example applications
 that demonstrate how to build useful tools on top of the prompter objects.
-    - `SairenCodeReviewer`: This application takes a project's source code and
+  - `SairenCodeReviewer`: This application takes a project's source code and
 uses an LLM to generate a code review based on a detailed, specialized prompt.
-    - `SairenCodingAssistant`: This acts as a centralized interface for
+  - `SairenCodingAssistant`: This acts as a centralized interface for
 other tools, allowing you to ask questions about Smalltalk, explain methods,
 or request a code review.
-    - `SairenPharoTutor`: This is a conversational chat bot specifically
+  - `SairenPharoTutor`: This is a conversational chat bot specifically
 instructed to answer questions about Pharo Smalltalk and
 related software engineering principles.
-    - `SairenExampleWebView`: This is a web application that showcases
+  - `SairenExampleWebView`: This is a web application that showcases
 multimodal capabilities, generating a poem and an image based on a subject,
 and translating spoken audio to text.
 
