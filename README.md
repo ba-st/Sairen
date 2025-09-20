@@ -2,7 +2,12 @@
 
 ![Logo](assets/logo.svg)
 
-A set of AI tools that use wrappers over LLM APIs.
+Sairen is a suite of AI tools written in Pharo Smalltalk that provides wrappers for Large Language Model (LLM) APIs.
+It's designed to simplify the process of integrating LLM functionalities like:
+- Text generation
+- Image generation
+- Audio transcription
+It also includes several usage examples and useful tools wrapping its own objects.
 
 > *Name origin*: A play on words, [AI](https://en.wikipedia.org/wiki/Artificial_intelligence) +
 > [Siren](https://en.wikipedia.org/wiki/Siren_(mythology)), reflecting how
@@ -23,6 +28,20 @@ A set of AI tools that use wrappers over LLM APIs.
 - [**Explore the docs**](docs/README.md)
 - [Report a defect](https://github.com/ba-st/Sairen/issues/new?labels=Type%3A+Defect)
 - [Request a feature](https://github.com/ba-st/Sairen/issues/new?labels=Type%3A+Feature)
+
+## Core Concepts and Usage
+
+The project's design revolves around several key ideas:
+
+* **API Abstraction:** Sairen encapsulates the complexities of interacting with the Gemini API, allowing developers to make requests for generative content without needing to handle the underlying HTTP calls and JSON formatting directly. This is seen in classes like `GeminiTextPrompter` and `GeminiBase64ImagePrompter`, which handle the specifics of communicating with the Gemini models.
+
+* **Prompter-based Interaction:** The main way to use the library is through "prompter" objects. These objects, such as `GeminiTextPrompter` and `GeminiBase64ImagePrompter`, are configured with an API key and specific parameters like temperature and maximum tokens. They have a `prompt:` method that takes a string or other data and returns the generated content from the LLM.
+
+* **Application-level Wrappers:** The project includes example applications that demonstrate how to build useful tools on top of the prompter objects.
+    * `SairenCodeReviewer`: This application takes a project's source code and uses an LLM to generate a code review based on a detailed, specialized prompt.
+    * `SairenCodingAssistant`: This acts as a centralized interface for other tools, allowing you to ask questions about Smalltalk, explain methods, or request a code review.
+    * `SairenPharoTutor`: This is a conversational chat bot specifically instructed to answer questions about Pharo Smalltalk and related software engineering principles.
+    * `SairenExampleWebView`: This is a web application that showcases multimodal capabilities, generating a poem and an image based on a subject, and translating spoken audio to text.
 
 ## License
 
