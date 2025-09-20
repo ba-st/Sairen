@@ -23,8 +23,8 @@ It also includes several usage examples and useful tools wrapping its own object
 [![Markdown Lint](https://github.com/ba-st/Sairen/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/ba-st/Sairen/actions/workflows/markdown-lint.yml)
 
 [![GitHub release](https://img.shields.io/github/release/ba-st/Sairen.svg)](https://github.com/ba-st/Sairen/releases/latest)
-[![Pharo 10](https://img.shields.io/badge/Pharo-10-informational)](https://pharo.org)
-[![Pharo 11](https://img.shields.io/badge/Pharo-11-informational)](https://pharo.org)
+[![Pharo 12](https://img.shields.io/badge/Pharo-12-informational)](https://pharo.org)
+[![Pharo 13](https://img.shields.io/badge/Pharo-13-informational)](https://pharo.org)
 
 ## Quick links
 
