@@ -23,6 +23,7 @@ GenerativePrompter class >> defaultHTTPClientProvider [
 	^ [
 		  ZnClient new
 			  beOneShot;
+			  timeout: 40;
 			  yourself
 	  ]
 ]

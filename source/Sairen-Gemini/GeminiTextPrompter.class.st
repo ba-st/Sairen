@@ -68,6 +68,12 @@ GeminiTextPrompter >> prompt: aText whenListeningTo: aBase64Audio with: aMimeTyp
 	^ self promptUsing: ( self jsonEntityFor: aText whenListeningTo: aBase64Audio with: aMimeType )
 ]
 
+{ #category : 'accessing' }
+GeminiTextPrompter >> promptBasedOn: aDictionary [
+
+	^ self promptUsing: ( self jsonEntityBasedOn: aDictionary )
+]
+
 { #category : 'private - accessing' }
 GeminiTextPrompter >> promptUsing: anEntity [
 
