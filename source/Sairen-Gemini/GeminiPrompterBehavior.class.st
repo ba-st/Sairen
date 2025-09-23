@@ -53,18 +53,12 @@ GeminiPrompterBehavior >> initializeConnectingWith: aClientProvider using: anAPI
 ]
 
 { #category : 'private - accessing' }
-GeminiPrompterBehavior >> jsonEntityFor: aText [
+GeminiPrompterBehavior >> jsonEntityBasedOn: aDictionary [
 
-	| parameters |
-
-	parameters := { ( 'contents'
-		                -> { { ( 'parts' -> { { ( 'text' -> aText ) } asDictionary } ) } asDictionary } ) }
-		              asDictionary.
-		
 	configurationOptional withContentDo: [ :configuration |
-			parameters at: 'generationConfig' put: configuration ].
-		
-	^ ZnEntity json: parameters asJson
+			aDictionary at: 'generationConfig' put: configuration ].
+
+	^ ZnEntity json: aDictionary asJson
 ]
 
 { #category : 'private - accessing' }
@@ -77,6 +71,13 @@ GeminiPrompterBehavior >> method [
 GeminiPrompterBehavior >> model [
 
 	^ self subclassResponsibility
+]
+
+{ #category : 'private - accessing' }
+GeminiPrompterBehavior >> parametersForPromptingJust: aText [
+
+	^ { 'contents' -> { { 'parts' -> { { 'text' -> aText } asDictionary } } asDictionary } }
+		  asDictionary
 ]
 
 { #category : 'private - accessing' }
@@ -95,7 +96,10 @@ GeminiPrompterBehavior >> postResponseFor: anEntity [
 { #category : 'accessing' }
 GeminiPrompterBehavior >> prompt: aText [
 
-	^ self promptUsing: ( self jsonEntityFor: aText )
+	| parameters |
+
+	parameters := self parametersForPromptingJust: aText.
+	^ self promptUsing: ( self jsonEntityBasedOn: parameters )
 ]
 
 { #category : 'private - accessing' }

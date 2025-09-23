@@ -12,6 +12,7 @@ Class {
 
 { #category : 'instance creation' }
 GeminiChat class >> authenticatedWith: anAPIKey [
+	"(GeminiChat authenticatedWith: 'API_KEY' ) askAbout: 'What is Smalltalk?'"
 
 	^ self
 		  connectingWith: self defaultHTTPClientProvider
@@ -58,7 +59,7 @@ GeminiChat >> askAbout: aQuery [
 	| answer |
 
 	self addAsUserQuery: aQuery.
-	answer := self prompt: self jsonPrompt.
+	answer := self promptBasedOn: self promptParameters.
 	self addAsModelResponse: answer.
 	^ answer
 ]
@@ -81,17 +82,10 @@ GeminiChat >> initializePrompterConnectingWith: aClientProvider authenticatedWit
 	aBlock value: prompter
 ]
 
-{ #category : 'private - accessing' }
-GeminiChat >> jsonPrompt [
-
-	^ { 'system_instruction' -> { 'parts' -> { { 'text' -> systemPrompt } asDictionary } } asDictionary .
-		  'contents' -> self promptHistory } asDictionary asJson
-]
-
 { #category : 'private - processing' }
-GeminiChat >> prompt: aJSON [
+GeminiChat >> promptBasedOn: aDictionary [
 
-	^ [ ( prompter prompt: aJSON ) any ]
+	^ [ ( prompter promptBasedOn: aDictionary ) any ]
 		  on: AssertionFailed , NameLookupFailure
 		  do: [ :ex | ex return: ex messageText ]
 ]
@@ -100,5 +94,21 @@ GeminiChat >> prompt: aJSON [
 GeminiChat >> promptHistory [
 
 	^ conversation collect: [ :message |
-			  { 'role' -> message key . 'parts' -> { 'text' -> message value } asDictionary } asDictionary ]
+			  { 'role' -> message key . 'parts' -> { { 'text' -> message value } asDictionary } }
+				  asDictionary ]
+]
+
+{ #category : 'private - accessing' }
+GeminiChat >> promptParameters [
+
+	| attributes |
+
+	attributes := Dictionary new.
+	systemPrompt ifNotEmpty: [
+			attributes
+				at: 'system_instruction'
+				put: { 'parts' -> { { 'text' -> systemPrompt } asDictionary } } asDictionary
+		].
+	attributes at: 'contents' put: self promptHistory.
+	^ attributes
 ]
