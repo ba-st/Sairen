@@ -64,6 +64,10 @@ BaselineOfSairen >> setUpPackages: spec [
 		group: 'Deployment' with: 'Sairen-Model';
 		package: 'Sairen-Gemini' with: [ spec requires: #( 'Sairen-Model' ) ];
 		group: 'Deployment' with: 'Sairen-Gemini';
+		package: 'Sairen-Ollama' with: [ spec requires: #( 'Sairen-Model' ) ];
+		group: 'Deployment' with: 'Sairen-Ollama';
+		package: 'Sairen-Cursor' with: [ spec requires: #( 'Sairen-Model' ) ];
+		group: 'Deployment' with: 'Sairen-Cursor';
 		package: 'Sairen-Examples' with: [
 				spec requires:
 						#( 'Sairen-Model' 'Willow-Deployment' 'Willow-Bootstrap-Deployment'
