@@ -64,6 +64,12 @@ GeminiChat >> askAbout: aQuery [
 	^ answer
 ]
 
+{ #category : 'accessing' }
+GeminiChat >> conversationMessages [
+
+	^ conversation asArray
+]
+
 { #category : 'initialization' }
 GeminiChat >> initializeConnectingWith: aClientProvider authenticatedWith: anAPIKey instructedTo: anInstructionString configuringPrompterWith: aBlock [
 

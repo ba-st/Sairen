@@ -59,6 +59,12 @@ SairenCodeReviewer >> requestReviewOf: aString [
 ]
 
 { #category : 'processing' }
+SairenCodeReviewer >> requestReviewOfCodeIn: aStream [
+
+	^ self requestReviewOf: aStream contents
+]
+
+{ #category : 'processing' }
 SairenCodeReviewer >> requestReviewOfProjectStoredAt: aLocation [
 
 	| filesToReview code |
