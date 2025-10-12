@@ -8,5 +8,13 @@ Class {
 { #category : 'accessing' }
 SairenSpecApplication class >> open [
 
-	( self new newPresenter: SairenPresenter ) open
+	( self new newPresenter: SairenTutorPresenter ) open
+]
+
+{ #category : 'accessing' }
+SairenSpecApplication class >> show: aString asReviewOfAll: somePackageNames [
+
+	( self new newPresenter: SairenReviewPresenter )
+		configureToShow: aString asReviewOfAll: somePackageNames;
+		open
 ]

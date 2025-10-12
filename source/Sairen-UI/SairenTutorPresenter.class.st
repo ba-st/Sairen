@@ -1,5 +1,5 @@
 Class {
-	#name : 'SairenPresenter',
+	#name : 'SairenTutorPresenter',
 	#superclass : 'SpPresenter',
 	#instVars : [
 		'messageInput',
@@ -16,25 +16,29 @@ Class {
 }
 
 { #category : 'accessing' }
-SairenPresenter class >> storedSairenParameters [
+SairenTutorPresenter class >> storedSairenParameters [
 
 	StoredSairenParameters ifNil: [ StoredSairenParameters := Dictionary new ].
 	^ StoredSairenParameters
 ]
 
 { #category : 'private - processing' }
-SairenPresenter >> askMessage [
+SairenTutorPresenter >> askMessage [
 
 	| message |
 
-	message := messageInput text.
-	tutor askAbout: message.
+	UIManager default inform: 'Waiting for model response'.
 
-	self updatePresenter
+	message := messageInput text.
+
+	[
+		tutor askAbout: message.
+		self updatePresenter
+	] fork
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> connectPresenters [
+SairenTutorPresenter >> connectPresenters [
 
 	apiKeyInput whenTextChangedDo: [ :newText |
 			self storedParameters at: #apiKey put: newText.
@@ -44,7 +48,7 @@ SairenPresenter >> connectPresenters [
 ]
 
 { #category : 'layout' }
-SairenPresenter >> defaultLayout [
+SairenTutorPresenter >> defaultLayout [
 
 	^ SpGridLayout build: [ :rowBuilder |
 			  rowBuilder
@@ -72,7 +76,7 @@ SairenPresenter >> defaultLayout [
 ]
 
 { #category : 'private - accessing' }
-SairenPresenter >> formatAsText: aCollection [
+SairenTutorPresenter >> formatAsText: aCollection [
 
 	^ Text streamContents: [ :stream |
 			  aCollection do: [ :message |
@@ -86,14 +90,14 @@ SairenPresenter >> formatAsText: aCollection [
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializeAPIKeyInput [
+SairenTutorPresenter >> initializeAPIKeyInput [
 
 	apiKeyInput := self newTextInput.
 	apiKeyInput text: ( self storedParameters at: #apiKey ifAbsent: '' )
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializeAskButton [
+SairenTutorPresenter >> initializeAskButton [
 
 	askButton := self newButton
 		             label: 'Ask';
@@ -103,21 +107,21 @@ SairenPresenter >> initializeAskButton [
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializeMessageList [
+SairenTutorPresenter >> initializeMessageList [
 
 	messageList := self newText.
 	self initializeMessages
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializeMessages [
+SairenTutorPresenter >> initializeMessages [
 
 	messageList text:
 		( self formatAsText: ( self storedParameters at: #messages ifAbsent: OrderedCollection new ) )
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializePresenters [
+SairenTutorPresenter >> initializePresenters [
 
 	self initializeAPIKeyInput.
 	self initializeAskButton.
@@ -127,13 +131,13 @@ SairenPresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializeTutor [
+SairenTutorPresenter >> initializeTutor [
 
 	tutor := SairenPharoTutor authenticatedWith: apiKeyInput text
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> initializeWindow: aWindowPresenter [
+SairenTutorPresenter >> initializeWindow: aWindowPresenter [
 
 	| addButton toolbar |
 
@@ -149,12 +153,12 @@ SairenPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Sairen Pharo tutor';
 		initialExtent: 600 @ 600;
-		windowIcon: ( self iconNamed: #userProfile );
+		windowIcon: SairenIcons sairenIcon;
 		toolbar: toolbar
 ]
 
 { #category : 'private - processing' }
-SairenPresenter >> saveConversation [
+SairenTutorPresenter >> saveConversation [
 
 	| givenName |
 
@@ -175,13 +179,13 @@ SairenPresenter >> saveConversation [
 ]
 
 { #category : 'private - accessing' }
-SairenPresenter >> storedParameters [
+SairenTutorPresenter >> storedParameters [
 
 	^ self class storedSairenParameters
 ]
 
 { #category : 'initialization' }
-SairenPresenter >> updatePresenter [
+SairenTutorPresenter >> updatePresenter [
 
 	messageList text: ( self formatAsText: tutor conversationMessages ).
 	messageInput text: ''

@@ -74,6 +74,8 @@ BaselineOfSairen >> setUpPackages: spec [
 						   'Willow-SpinKit-Deployment' )
 			];
 		group: 'Examples' with: 'Sairen-Examples';
+		package: 'Sairen-UI' with: [ spec requires: #( 'Sairen-Examples' ) ];
+		group: 'Examples' with: 'Sairen-UI';
 		package: 'Sairen-Gemini-Tests' with: [ spec requires: #( 'Sairen-Gemini' ) ];
 		group: 'Tests' with: 'Sairen-Gemini-Tests';
 		package: 'Sairen-Examples-Tests' with: [ spec requires: #( 'Willow-SUnit' 'Sairen-Examples' ) ];
