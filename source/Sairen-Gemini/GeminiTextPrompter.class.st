@@ -33,6 +33,38 @@ GeminiTextPrompter >> changeTopTokenIndividualProbabilityTo: aNumber [
 	self currentConfiguration at: 'topK' put: aNumber
 ]
 
+{ #category : 'configuring' }
+GeminiTextPrompter >> chooseFastestModel [
+
+	| models |
+
+	models := self suggestedModels.
+	models := models sorted: [ :a :b |
+			          ( ( a name endsWith: 'flash' ) and: [ b name endsWith: 'pro' ] ) or: [
+					          ( self versionFrom: a ) > ( self versionFrom: b ) ]
+		          ].
+	self changeModelNameTo: ( models first name copyAfter: $/ )
+]
+
+{ #category : 'configuring' }
+GeminiTextPrompter >> chooseMostPotentModel [
+
+	| models |
+
+	models := self suggestedModels.
+	models := models sorted: [ :a :b |
+			          ( ( a name endsWith: 'pro' ) and: [ b name endsWith: 'flash' ] ) or: [
+					          ( self versionFrom: a ) > ( self versionFrom: b ) ]
+		          ].
+	self changeModelNameTo: ( models first name copyAfter: $/ )
+]
+
+{ #category : 'initialization' }
+GeminiTextPrompter >> defaultModelName [
+
+	^ 'gemini-2.0-flash'
+]
+
 { #category : 'private - accessing' }
 GeminiTextPrompter >> flattenedPartsFrom: responseEntity [
 
@@ -46,6 +78,12 @@ GeminiTextPrompter >> flattenedPartsFrom: responseEntity [
 			  ]
 ]
 
+{ #category : 'initialization' }
+GeminiTextPrompter >> initializeModelName [
+
+	modelName := self defaultModelName
+]
+
 { #category : 'private - accessing' }
 GeminiTextPrompter >> jsonEntityFor: aText whenListeningTo: aBase64Audio with: aMimeType [
 
@@ -54,12 +92,6 @@ GeminiTextPrompter >> jsonEntityFor: aText whenListeningTo: aBase64Audio with: a
     "parts":[{"inlineData": {"mimeType":"<1s>","data":"<2s>"}},{"text": "<3s>"}]
     }]
    }' expandMacrosWith: aMimeType with: aBase64Audio with: aText )
-]
-
-{ #category : 'private - accessing' }
-GeminiTextPrompter >> model [
-
-	^ 'gemini-2.0-flash'
 ]
 
 { #category : 'accessing' }
@@ -81,4 +113,22 @@ GeminiTextPrompter >> promptUsing: anEntity [
 
 	responseEntity := self postResponseFor: anEntity.
 	^ self flattenedPartsFrom: responseEntity
+]
+
+{ #category : 'private - accessing' }
+GeminiTextPrompter >> suggestedModels [
+
+	| models |
+
+	models := self availableModels.
+	^ ( models isEmpty or: [ models size = 1 and: [ models any includesKey: #error ] ] )
+		  then: [ Array with: self defaultModelName ]
+		  otherwise: [
+			  models select: [ :model | ( model name endsWith: 'pro' ) or: [ model name endsWith: 'flash' ] ] ]
+]
+
+{ #category : 'private - accessing' }
+GeminiTextPrompter >> versionFrom: aModel [
+
+	^ ( ( aModel name copyAfter: $- ) copyUpToLast: $- ) asNumber
 ]

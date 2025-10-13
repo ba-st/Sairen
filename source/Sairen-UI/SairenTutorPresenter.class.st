@@ -8,19 +8,9 @@ Class {
 		'tutor',
 		'askButton'
 	],
-	#classVars : [
-		'StoredSairenParameters'
-	],
 	#category : 'Sairen-UI',
 	#package : 'Sairen-UI'
 }
-
-{ #category : 'accessing' }
-SairenTutorPresenter class >> storedSairenParameters [
-
-	StoredSairenParameters ifNil: [ StoredSairenParameters := Dictionary new ].
-	^ StoredSairenParameters
-]
 
 { #category : 'private - processing' }
 SairenTutorPresenter >> askMessage [
@@ -41,9 +31,12 @@ SairenTutorPresenter >> askMessage [
 SairenTutorPresenter >> connectPresenters [
 
 	apiKeyInput whenTextChangedDo: [ :newText |
-			self storedParameters at: #apiKey put: newText.
-			self initializeTutor.
-			self updatePresenter
+			UIManager default inform: 'Updating API key and choosing the best model. Please wait'.
+			[
+				SairenParameters current changeAPIKeyTo: newText.
+				self initializeTutor.
+				self updatePresenter
+			] fork
 		]
 ]
 
@@ -93,7 +86,7 @@ SairenTutorPresenter >> formatAsText: aCollection [
 SairenTutorPresenter >> initializeAPIKeyInput [
 
 	apiKeyInput := self newTextInput.
-	apiKeyInput text: ( self storedParameters at: #apiKey ifAbsent: '' )
+	apiKeyInput text: SairenParameters current apiKey
 ]
 
 { #category : 'initialization' }
@@ -116,8 +109,7 @@ SairenTutorPresenter >> initializeMessageList [
 { #category : 'initialization' }
 SairenTutorPresenter >> initializeMessages [
 
-	messageList text:
-		( self formatAsText: ( self storedParameters at: #messages ifAbsent: OrderedCollection new ) )
+	messageList text: ( self formatAsText: OrderedCollection new )
 ]
 
 { #category : 'initialization' }
@@ -176,12 +168,6 @@ SairenTutorPresenter >> saveConversation [
 							  ] ) asJson;
 				close
 		]
-]
-
-{ #category : 'private - accessing' }
-SairenTutorPresenter >> storedParameters [
-
-	^ self class storedSairenParameters
 ]
 
 { #category : 'initialization' }

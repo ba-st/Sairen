@@ -43,7 +43,9 @@ SairenPharoTutor >> initializeAuthenticatedWith: anAPIKey [
 		        configuringPrompterWith: [ :prompter |
 				        prompter
 					        changeTemperatureTo: 0.4;
-					        changeTopTokenIndividualProbabilityTo: 3
+					        changeTopTokenIndividualProbabilityTo: 3;
+					        chooseMostPotentModel;
+					        changeTimeoutTo: 120
 			        ]
 ]
 

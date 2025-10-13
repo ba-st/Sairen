@@ -12,10 +12,10 @@ GeminiBase64ImagePrompter >> initializeConnectingWith: aClientProvider using: an
 	self currentConfiguration at: 'responseModalities' put: { 'TEXT' . 'IMAGE' }
 ]
 
-{ #category : 'private - accessing' }
-GeminiBase64ImagePrompter >> model [
+{ #category : 'initialization' }
+GeminiBase64ImagePrompter >> initializeModelName [
 
-	^ 'gemini-2.0-flash-preview-image-generation'
+	modelName := 'gemini-2.0-flash-preview-image-generation'
 ]
 
 { #category : 'private - accessing' }

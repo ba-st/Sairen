@@ -14,7 +14,7 @@ OllamaChat class >> authenticatedWith: anAPIKey [
 	"(OllamaChat authenticatedWith: '') setModelTo: 'gemma3:12b-it-q4_K_M'"
 
 	^ self
-		  connectingWith: self defaultHTTPClientProvider
+		  connectingWith: GenerativePrompter defaultHTTPClientProvider
 		  authenticatedWith: anAPIKey
 		  instructedTo: ''
 		  configuringPrompterWith: [ :prompter |  ]
@@ -28,16 +28,6 @@ OllamaChat class >> connectingWith: aClientProvider authenticatedWith: anAPIKey 
 		  authenticatedWith: anAPIKey
 		  instructedTo: anInstructionString
 		  configuringPrompterWith: aBlock
-]
-
-{ #category : 'private - accessing' }
-OllamaChat class >> defaultHTTPClientProvider [
-
-	^ [
-		  ZnClient new
-			  beOneShot;
-			  yourself
-	  ]
 ]
 
 { #category : 'private - processing' }

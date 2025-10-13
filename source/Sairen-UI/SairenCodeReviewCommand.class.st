@@ -28,14 +28,14 @@ SairenCodeReviewCommand >> apiKey [
 
 	| apiKey |
 
-	apiKey := SairenTutorPresenter storedSairenParameters at: #apiKey ifAbsent: ''.
+	apiKey := SairenParameters current apiKey.
 	apiKey ifEmpty: [
 			apiKey := UIManager default
 				          request: 'API key'
 				          initialAnswer: ''
 				          title: 'API Key not defined. Enter it now to save it'.
 			( apiKey notNil and: [ apiKey notEmpty ] ) ifTrue: [
-					SairenTutorPresenter storedSairenParameters at: #apiKey put: apiKey ]
+					SairenParameters current changeAPIKeyTo: apiKey ]
 		].
 	^ apiKey
 ]

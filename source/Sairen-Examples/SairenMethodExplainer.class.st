@@ -46,6 +46,7 @@ SairenMethodExplainer >> geminiTextPrompter [
 	^ ( GeminiTextPrompter authenticatedWith: apiKey )
 		  changeTemperatureTo: 0.4;
 		  changeTopTokenIndividualProbabilityTo: 3;
+		  chooseMostPotentModel;
 		  yourself
 ]
 
