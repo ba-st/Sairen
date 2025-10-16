@@ -17,10 +17,15 @@ SairenTutorPresenter >> askMessage [
 
 	| message |
 
-	UIManager default inform: 'Waiting for model response'.
-
 	message := messageInput text.
-
+	messageList text: ( Text streamContents: [ :stream |
+				  stream
+					  nextPutAll: messageList text;
+					  cr;
+					  nextPutAll: 'Waiting for model response of ';
+					  withAttribute: TextEmphasis bold do: [ stream nextPutAll: message ];
+					  nextPutAll: '...'
+			  ] ).
 	[
 		tutor askAbout: message.
 		self updatePresenter
@@ -43,36 +48,23 @@ SairenTutorPresenter >> connectPresenters [
 { #category : 'layout' }
 SairenTutorPresenter >> defaultLayout [
 
-	^ SpGridLayout build: [ :rowBuilder |
-			  rowBuilder
-				  beColumnHomogeneous;
-				  beRowHomogeneous;
-				  add: ( SpGridLayout build: [ :builder |
-								    builder
-									    beColumnNotHomogeneous;
-									    column: 2 expand: true;
-									    add: 'API Key';
-									    add: apiKeyInput
-							    ] );
-				  nextRow;
-				  add: messageList;
-				  nextRow;
-				  add: ( SpGridLayout build: [ :builder |
-							    builder
-								    beColumnNotHomogeneous;
-								    column: 2 expand: true;
-								    add: 'Message';
-								    add: messageInput;
-								    add: askButton
-						    ] )
-		  ]
+	^ SpBoxLayout newTopToBottom
+		  add: 'API Key' expand: false;
+		  add: apiKeyInput expand: false;
+		  add: 'Message' expand: false;
+		  add: messageInput expand: false;
+		  add: askButton expand: false;
+		  add: 'Chat' expand: false;
+		  add: messageList;
+		  yourself
 ]
 
 { #category : 'private - accessing' }
 SairenTutorPresenter >> formatAsText: aCollection [
 
 	^ Text streamContents: [ :stream |
-			  aCollection do: [ :message |
+			  aCollection doWithIndex: [ :message :index |
+					  ( index > 1 and: [ message key = 'user' ] ) then: [ stream cr ].
 					  stream withAttribute: TextEmphasis bold do: [ stream nextPutAll: message key capitalized ].
 					  stream
 						  nextPutAll: ': ';
@@ -85,7 +77,7 @@ SairenTutorPresenter >> formatAsText: aCollection [
 { #category : 'initialization' }
 SairenTutorPresenter >> initializeAPIKeyInput [
 
-	apiKeyInput := self newTextInput.
+	apiKeyInput := self newTextInput bePassword.
 	apiKeyInput text: SairenParameters current apiKey
 ]
 
@@ -102,7 +94,7 @@ SairenTutorPresenter >> initializeAskButton [
 { #category : 'initialization' }
 SairenTutorPresenter >> initializeMessageList [
 
-	messageList := self newText.
+	messageList := self newText beNotEditable.
 	self initializeMessages
 ]
 
@@ -125,7 +117,7 @@ SairenTutorPresenter >> initializePresenters [
 { #category : 'initialization' }
 SairenTutorPresenter >> initializeTutor [
 
-	tutor := SairenPharoTutor authenticatedWith: apiKeyInput text
+	tutor := SairenParameters current tutor
 ]
 
 { #category : 'initialization' }
@@ -144,7 +136,7 @@ SairenTutorPresenter >> initializeWindow: aWindowPresenter [
 		           yourself.
 	aWindowPresenter
 		title: 'Sairen Pharo tutor';
-		initialExtent: 600 @ 600;
+		initialExtent: 600 @ 800;
 		windowIcon: SairenIcons sairenIcon;
 		toolbar: toolbar
 ]

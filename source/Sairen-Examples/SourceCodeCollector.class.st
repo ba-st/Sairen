@@ -60,14 +60,18 @@ SourceCodeCollector >> sourceCodeOfAll: methods [
 ]
 
 { #category : 'accessing' }
-SourceCodeCollector >> sourceCodeOfAllLocalImplementorsFrom: aSelector [
+SourceCodeCollector >> sourceCodeOfAllLocalImplementorsFromAll: someSelectors [
 
-	| methods startingMethod |
+	| methods |
 
 	methods := OrderedSet new.
-	startingMethod := self methodNamed: aSelector in: classToSearch.
-	methods add: startingMethod.
-	self addAllLocalImplementorsFor: startingMethod to: methods.
+	someSelectors do: [ :selector |
+			| startingMethod |
+
+			startingMethod := self methodNamed: selector in: classToSearch.
+			methods add: startingMethod.
+			self addAllLocalImplementorsFor: startingMethod to: methods
+		].
 	^ self sourceCodeOfAll: methods
 ]
 

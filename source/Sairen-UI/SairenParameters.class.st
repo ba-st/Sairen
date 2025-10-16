@@ -2,7 +2,8 @@ Class {
 	#name : 'SairenParameters',
 	#superclass : 'Object',
 	#instVars : [
-		'apiKey'
+		'apiKey',
+		'tutor'
 	],
 	#classVars : [
 		'Current'
@@ -33,12 +34,26 @@ SairenParameters >> apiKey [
 { #category : 'configuring' }
 SairenParameters >> changeAPIKeyTo: aString [
 
-	apiKey := aString
+	apiKey := aString.
+	self initializeTutor
 ]
 
 { #category : 'initialization' }
 SairenParameters >> initialize [
 
 	super initialize.
-	apiKey := ''
+	apiKey := ''.
+	self initializeTutor
+]
+
+{ #category : 'initialization' }
+SairenParameters >> initializeTutor [
+
+	tutor := SairenPharoTutor authenticatedWith: apiKey
+]
+
+{ #category : 'accessing' }
+SairenParameters >> tutor [
+
+	^ tutor
 ]

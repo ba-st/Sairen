@@ -13,5 +13,5 @@ SairenState class >> aiWorldMenuOn: aBuilder [
 		order: 1;
 		icon: SairenIcons sairenIcon;
 		help: 'Ask questions to the Sairen tutor';
-		action: [ SairenSpecApplication open ]
+		action: [ SairenSpecApplication showTutor ]
 ]

@@ -6,15 +6,23 @@ Class {
 }
 
 { #category : 'accessing' }
-SairenSpecApplication class >> open [
+SairenSpecApplication class >> showExplanationOfAll: someMethods authenticatedWith: apiKey [
 
-	( self new newPresenter: SairenTutorPresenter ) open
+	( self new newPresenter: SairenMethodExplanationPresenter )
+		configureToExplainAll: someMethods authenticatedWith: apiKey;
+		open
 ]
 
 { #category : 'accessing' }
-SairenSpecApplication class >> show: aString asReviewOfAll: somePackageNames [
+SairenSpecApplication class >> showReviewOfAll: somePackages authenticatedWith: apiKey [
 
 	( self new newPresenter: SairenReviewPresenter )
-		configureToShow: aString asReviewOfAll: somePackageNames;
+		configureToReviewAll: somePackages authenticatedWith: apiKey;
 		open
+]
+
+{ #category : 'accessing' }
+SairenSpecApplication class >> showTutor [
+
+	( self new newPresenter: SairenTutorPresenter ) open
 ]

@@ -22,7 +22,7 @@ SairenCodeReviewer >> geminiTextPrompter [
 
 	<ignoreForCoverage>
 	^ ( GeminiTextPrompter authenticatedWith: apiKey )
-		  chooseMostPotentModel;
+		  chooseFastestModel;
 		  changeTimeoutTo: 120;
 		  changeTemperatureTo: 0.4;
 		  changeTopTokenIndividualProbabilityTo: 3;

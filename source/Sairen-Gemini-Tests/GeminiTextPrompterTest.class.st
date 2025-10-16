@@ -78,5 +78,9 @@ GeminiTextPrompterTest >> testPromptingTextOnly [
 ]
 
 { #category : 'test support' }
+GeminiTextPrompterTest >> timeout: aNumberOfSeconds [
+]
+
+{ #category : 'test support' }
 GeminiTextPrompterTest >> url: urlObject [
 ]

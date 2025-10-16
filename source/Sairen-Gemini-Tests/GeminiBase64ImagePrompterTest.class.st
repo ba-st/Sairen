@@ -62,5 +62,9 @@ GeminiBase64ImagePrompterTest >> testPromptingForImage [
 ]
 
 { #category : 'test support' }
+GeminiBase64ImagePrompterTest >> timeout: aNumberOfSeconds [
+]
+
+{ #category : 'test support' }
 GeminiBase64ImagePrompterTest >> url: urlObject [
 ]

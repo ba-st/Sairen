@@ -9,6 +9,9 @@ Class {
 SairenMethodExplainerTest >> testPrompting [
 
 	self
-		assert: ( ( SairenMethodExplainer authenticatedWith: 'YOUR_API_KEY' ) explain: '<' in: String )
-		equals: 'Gemini responded with error: API key not valid. Please pass a valid API key.'
+		assert: ( ( SairenMethodExplainer authenticatedWith: 'YOUR_API_KEY' )
+				  explainAll: ( Array with: '<' )
+				  in: String )
+		equals:
+		'Server responded HTTP/1.1 404 Not Found to https://generativelanguage.googleapis.com:443/v1beta/models/:generateContent?key=YOUR_API_KEY'
 ]

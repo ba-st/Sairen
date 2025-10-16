@@ -28,12 +28,12 @@ SairenCodingAssistant >> askAbout: aQuery [
 ]
 
 { #category : 'processing' }
-SairenCodingAssistant >> explain: aSelector in: aClass [
+SairenCodingAssistant >> explainAll: someSelectors in: aClass [
 
 	| explainer |
 
 	explainer := SairenMethodExplainer authenticatedWith: apiKey.
-	^ explainer explain: aSelector in: aClass
+	^ explainer explainAll: someSelectors in: aClass
 ]
 
 { #category : 'initialization' }

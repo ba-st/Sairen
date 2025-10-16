@@ -44,7 +44,7 @@ SairenPharoTutor >> initializeAuthenticatedWith: anAPIKey [
 				        prompter
 					        changeTemperatureTo: 0.4;
 					        changeTopTokenIndividualProbabilityTo: 3;
-					        chooseMostPotentModel;
+					        chooseFastestModel;
 					        changeTimeoutTo: 120
 			        ]
 ]

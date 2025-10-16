@@ -50,5 +50,9 @@ GeminiChatTest >> testAsking [
 ]
 
 { #category : 'test support' }
+GeminiChatTest >> timeout: aNumberOfSeconds [
+]
+
+{ #category : 'test support' }
 GeminiChatTest >> url: urlObject [
 ]

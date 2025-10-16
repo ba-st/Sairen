@@ -131,14 +131,22 @@ GeminiPrompterBehavior >> parametersForPromptingJust: aText [
 { #category : 'private - accessing' }
 GeminiPrompterBehavior >> postResponseFor: anEntity [
 
-	| client |
+	| client responseEntity |
 
 	client := self httpClient.
 	client
 		entity: anEntity;
 		contentType: ZnMimeType applicationJson.
 	client post.
-	^ NeoJSONObject fromString: client response entity
+	responseEntity := client response entity.
+	responseEntity ifNil: [
+			AssertionFailed signal: ( 'Server responded <1s> to <2p>'
+					  expandMacrosWith:
+					  ( String streamContents: [ :stream | client response statusLine writeOn: stream ] ) trim
+					  with: client request uri )
+		].
+
+	^ NeoJSONObject fromString: responseEntity
 ]
 
 { #category : 'accessing' }

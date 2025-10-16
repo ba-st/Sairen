@@ -17,22 +17,22 @@ SairenMethodExplainer class >> authenticatedWith: anAPIKey [
 ]
 
 { #category : 'processing' }
-SairenMethodExplainer >> explain: aSelector in: aClass [
+SairenMethodExplainer >> explainAll: someSelectors in: aClass [
 
 	| collector code |
 
 	collector := SourceCodeCollector searchingOnly: aClass.
-	code := collector sourceCodeOfAllLocalImplementorsFrom: aSelector.
-	^ self explain: aSelector knowingAbout: code
+	code := collector sourceCodeOfAllLocalImplementorsFromAll: someSelectors.
+	^ self explainAll: someSelectors knowingAbout: code
 ]
 
 { #category : 'private - processing' }
-SairenMethodExplainer >> explain: aSelector knowingAbout: code [
+SairenMethodExplainer >> explainAll: someSelectors knowingAbout: code [
 
 	<ignoreForCoverage>
 	| prompt prompter |
 
-	prompt := self promptToExplain: aSelector knowingAbout: code.
+	prompt := self promptToExplainAll: someSelectors knowingAbout: code.
 	prompter := self geminiTextPrompter.
 	^ [ ( prompter prompt: prompt ) any ]
 		  on: AssertionFailed , NameLookupFailure
@@ -46,7 +46,7 @@ SairenMethodExplainer >> geminiTextPrompter [
 	^ ( GeminiTextPrompter authenticatedWith: apiKey )
 		  changeTemperatureTo: 0.4;
 		  changeTopTokenIndividualProbabilityTo: 3;
-		  chooseMostPotentModel;
+		  chooseFastestModel;
 		  yourself
 ]
 
@@ -57,7 +57,7 @@ SairenMethodExplainer >> initializeAuthenticatedWith: anAPIKey [
 ]
 
 { #category : 'private - accessing' }
-SairenMethodExplainer >> promptToExplain: aSelector knowingAbout: code [
+SairenMethodExplainer >> promptToExplainAll: someSelectors knowingAbout: code [
 
 	<ignoreForCoverage>
 	^ '##1 ROLE: You are a Smalltalk developer. You have read all books by Alan Kay, Dan Ingalls, Adele Goldberg. you have watched all their interviews and presentations. You are pragmatic, and know when to favor practical solutions, but are an object purist at heart.
@@ -73,6 +73,8 @@ SairenMethodExplainer >> promptToExplain: aSelector knowingAbout: code [
 * DO NOT talk about the implementation, and DO NOT mention the method selectors, but rather, explain in a colloquial way the observed behavior of the method, in the context of the known source code received.
 ##4 EXPLANATION STYLE: Keep the explanation to a minimum, since there will be opportunity later to improve the finer details.
 ##5 FORMAT: The code will be written in the Tonel format.
-##6 METHOD TO EXPLAIN: <1s>
-##7 KNOWN IMPLEMENTATION OF METHODS REFERENCED: <2s>' expandMacrosWith: aSelector with: code
+##6 METHOD(S) TO EXPLAIN: <1s>
+##7 KNOWN IMPLEMENTATION OF METHODS REFERENCED: <2s>'
+		  expandMacrosWith: ( ( CollectionFormatter separatingWith: ', ' ) format: someSelectors )
+		  with: code
 ]

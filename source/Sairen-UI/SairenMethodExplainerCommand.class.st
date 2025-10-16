@@ -1,22 +1,19 @@
 Class {
-	#name : 'SairenCodeReviewCommand',
-	#superclass : 'CmdCommand',
-	#instVars : [
-		'packages'
-	],
+	#name : 'SairenMethodExplainerCommand',
+	#superclass : 'SycMethodCommand',
 	#category : 'Sairen-UI',
 	#package : 'Sairen-UI'
 }
 
 { #category : 'activation' }
-SairenCodeReviewCommand class >> fullBrowserMenuActivation [
+SairenMethodExplainerCommand class >> methodMenuActivation [
 
 	<classAnnotation>
-	^ CmdContextMenuActivation byRootGroupItemFor: ClyFullBrowserPackageContext
+	^ CmdContextMenuActivation byRootGroupItemFor: ClyMethod asCalypsoItemContext
 ]
 
 { #category : 'private - accessing' }
-SairenCodeReviewCommand >> apiKey [
+SairenMethodExplainerCommand >> apiKey [
 
 	| apiKey |
 
@@ -33,7 +30,7 @@ SairenCodeReviewCommand >> apiKey [
 ]
 
 { #category : 'accessing' }
-SairenCodeReviewCommand >> defaultMenuIconFormSet [
+SairenMethodExplainerCommand >> defaultMenuIconFormSet [
 
 	| form |
 
@@ -42,30 +39,30 @@ SairenCodeReviewCommand >> defaultMenuIconFormSet [
 ]
 
 { #category : 'accessing' }
-SairenCodeReviewCommand >> defaultMenuItemName [
+SairenMethodExplainerCommand >> defaultMenuItemName [
 
-	^ 'Sairen Code Review'
+	^ 'Sairen Method Explainer'
 ]
 
 { #category : 'accessing' }
-SairenCodeReviewCommand >> description [
+SairenMethodExplainerCommand >> description [
 
-	^ 'Perform a generative code review on the selected packages.'
+	^ 'Perform a generative explanation of the selected methods.'
 ]
 
 { #category : 'execution' }
-SairenCodeReviewCommand >> execute [
+SairenMethodExplainerCommand >> execute [
 
 	| apiKey |
 
-	packages ifEmpty: [ ^ UIManager default inform: 'No packages selected' ].
+	methods ifEmpty: [ ^ UIManager default inform: 'No methods selected' ].
 	apiKey := self apiKey.
-	SairenSpecApplication showReviewOfAll: packages authenticatedWith: apiKey
+	SairenSpecApplication showExplanationOfAll: methods authenticatedWith: apiKey
 ]
 
 { #category : 'execution' }
-SairenCodeReviewCommand >> prepareFullExecutionInContext: aBrowserContext [
+SairenMethodExplainerCommand >> prepareFullExecutionInContext: aBrowserContext [
 
 	super prepareFullExecutionInContext: aBrowserContext.
-	packages := aBrowserContext selectedPackageItems collect: [ :e | e actualObject ]
+	methods := aBrowserContext selectedMethods
 ]
