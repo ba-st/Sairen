@@ -117,21 +117,3 @@ SairenCodeReviewer >> requestReviewOfCodeIn: aStream [
 
 	^ self requestReviewOf: aStream contents
 ]
-
-{ #category : 'processing' }
-SairenCodeReviewer >> requestReviewOfProjectStoredAt: aLocation [
-
-	| filesToReview code |
-
-	filesToReview := aLocation asFileReference allFiles select: [ :each |
-			                 ( each basename endsWith: '.class.st' ) or: [
-					                 each basename endsWith: '.extension.st' ] ].
-	code := String streamContents: [ :stream |
-			        filesToReview do: [ :file |
-					        stream
-						        nextPutAll: file contents;
-						        cr
-				        ]
-		        ].
-	^ self requestReviewOf: code
-]

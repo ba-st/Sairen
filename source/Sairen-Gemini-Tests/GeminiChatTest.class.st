@@ -8,7 +8,7 @@ Class {
 { #category : 'private - accessing' }
 GeminiChatTest >> apiKey [
 
-	^ ' abc123'
+	^ 'abc123'
 ]
 
 { #category : 'private - accessing' }

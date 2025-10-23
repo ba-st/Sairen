@@ -11,7 +11,7 @@ Class {
 
 { #category : 'instance creation' }
 SairenMethodExplainer class >> authenticatedWith: anAPIKey [
-	"( SairenMethodExplainer authenticatedWith: YOUR_API_KEY ) explain: '<' in: String"
+	"( SairenMethodExplainer authenticatedWith: YOUR_API_KEY ) explainAll: (Array with: '<') in: String"
 
 	^ self new initializeAuthenticatedWith: anAPIKey
 ]

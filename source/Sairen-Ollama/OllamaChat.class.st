@@ -53,6 +53,12 @@ OllamaChat >> askAbout: aQuery [
 	^ answer
 ]
 
+{ #category : 'accessing' }
+OllamaChat >> conversationMessages [
+
+	^ conversation asArray
+]
+
 { #category : 'initialization' }
 OllamaChat >> initializeConnectingWith: aClientProvider authenticatedWith: anAPIKey instructedTo: anInstructionString configuringPrompterWith: aBlock [
 

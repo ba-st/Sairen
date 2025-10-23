@@ -96,7 +96,7 @@ GeminiPrompterBehavior >> initializeConnectingWith: aClientProvider using: anAPI
 	clientProvider := aClientProvider.
 	apiKey := anAPIKey.
 	configurationOptional := Optional unused.
-	timeoutInSeconds := 40.
+	self changeTimeoutTo: 40.
 	self initializeModelName
 ]
 

@@ -38,7 +38,7 @@ SairenTutorPresenter >> connectPresenters [
 	apiKeyInput whenTextChangedDo: [ :newText |
 			UIManager default inform: 'Updating API key and choosing the best model. Please wait'.
 			[
-				SairenParameters current changeAPIKeyTo: newText.
+				SairenCodingAssistant current changeAPIKeyTo: newText.
 				self initializeTutor.
 				self updatePresenter
 			] fork
@@ -78,7 +78,7 @@ SairenTutorPresenter >> formatAsText: aCollection [
 SairenTutorPresenter >> initializeAPIKeyInput [
 
 	apiKeyInput := self newTextInput bePassword.
-	apiKeyInput text: SairenParameters current apiKey
+	apiKeyInput text: SairenCodingAssistant current apiKey
 ]
 
 { #category : 'initialization' }
@@ -117,7 +117,7 @@ SairenTutorPresenter >> initializePresenters [
 { #category : 'initialization' }
 SairenTutorPresenter >> initializeTutor [
 
-	tutor := SairenParameters current tutor
+	tutor := SairenCodingAssistant current tutor
 ]
 
 { #category : 'initialization' }

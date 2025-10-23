@@ -2,51 +2,59 @@ Class {
 	#name : 'SairenCodingAssistant',
 	#superclass : 'Object',
 	#instVars : [
-		'apiKey'
+		'apiKey',
+		'tutor'
+	],
+	#classVars : [
+		'Current'
 	],
 	#category : 'Sairen-Examples-Application',
 	#package : 'Sairen-Examples',
 	#tag : 'Application'
 }
 
+{ #category : 'accessing' }
+SairenCodingAssistant class >> current [
+
+	Current ifNil: [ Current := super new ].
+	^ Current
+]
+
 { #category : 'instance creation' }
-SairenCodingAssistant class >> authenticatedWith: anAPIKey [
-	"( SairenCodingAssistant authenticatedWith: YOUR_API_KEY ) requestReviewOfProjectStoredAt: YOUR_PROJECT_LOCATION"
-	"( SairenCodingAssistant authenticatedWith: YOUR_API_KEY ) explain: '<' in: String"
-	"( SairenCodingAssistant authenticatedWith: YOUR_API_KEY ) askAbout: 'What reserved words does Smalltalk have?'"
+SairenCodingAssistant class >> new [
 
-	^ self new initializeAuthenticatedWith: anAPIKey
+	^ self current
 ]
 
-{ #category : 'processing' }
-SairenCodingAssistant >> askAbout: aQuery [
+{ #category : 'accessing' }
+SairenCodingAssistant >> apiKey [
 
-	| tutor |
-
-	tutor := SairenPharoTutor authenticatedWith: apiKey.
-	^ tutor askAbout: aQuery
+	^ apiKey
 ]
 
-{ #category : 'processing' }
-SairenCodingAssistant >> explainAll: someSelectors in: aClass [
+{ #category : 'configuring' }
+SairenCodingAssistant >> changeAPIKeyTo: aString [
 
-	| explainer |
-
-	explainer := SairenMethodExplainer authenticatedWith: apiKey.
-	^ explainer explainAll: someSelectors in: aClass
+	apiKey := aString.
+	self initializeTutor
 ]
 
 { #category : 'initialization' }
-SairenCodingAssistant >> initializeAuthenticatedWith: anAPIKey [
+SairenCodingAssistant >> initialize [
 
-	apiKey := anAPIKey
+	super initialize.
+	apiKey := ''.
+	self initializeTutor
 ]
 
-{ #category : 'processing' }
-SairenCodingAssistant >> requestReviewOfProjectStoredAt: aLocation [
+{ #category : 'initialization' }
+SairenCodingAssistant >> initializeTutor [
 
-	| reviewer |
+	tutor := SairenPharoTutor authenticatedWith: apiKey
+]
 
-	reviewer := SairenCodeReviewer authenticatedWith: apiKey.
-	^ reviewer requestReviewOfProjectStoredAt: aLocation
+{ #category : 'accessing' }
+SairenCodingAssistant >> tutor [
+
+	^ tutor
 ]

@@ -81,7 +81,7 @@ GeminiTextPrompter >> flattenedPartsFrom: responseEntity [
 { #category : 'initialization' }
 GeminiTextPrompter >> initializeModelName [
 
-	modelName := self defaultModelName
+	self changeModelNameTo: self defaultModelName
 ]
 
 { #category : 'private - accessing' }

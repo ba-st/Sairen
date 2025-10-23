@@ -10,7 +10,7 @@ SairenCodeReviewerTest >> testPrompting [
 
 	self
 		should: [
-				( SairenCodingAssistant authenticatedWith: 'YOUR_API_KEY' ) requestReviewOfProjectStoredAt:
+				( SairenCodeReviewer authenticatedWith: 'YOUR_API_KEY' ) requestReviewOfCodeIn:
 					'YOUR_PROJECT_LOCATION'
 			]
 		raise: FileDoesNotExistException
