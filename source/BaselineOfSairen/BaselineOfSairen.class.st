@@ -18,7 +18,7 @@ BaselineOfSairen >> baseline: spec [
 				group: 'CI' with: 'Tests';
 				group: 'Dependent-SUnit-Extensions' with: 'Willow-SUnit';
 				group: 'Examples' with: #( 'Deployment' 'Sairen-Examples' );
-				group: 'Development' with: #( 'Tests' );
+				group: 'Development' with: #( 'Tests' 'Examples' );
 				group: 'default' with: 'Development'
 		]
 ]
