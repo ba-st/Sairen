@@ -39,7 +39,7 @@ BaselineOfSairen >> setUpDependencies: spec [
 		baseline: 'ZincHTTPComponents' with: [ spec repository: 'github://svenvc/zinc' ];
 		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ].
 	spec
-		baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON:master/repository' ];
+		baseline: 'NeoJSON' with: [ spec repository: 'github://ba-st-dependencies/NeoJSON:v20' ];
 		project: 'NeoJSON-Core' copyFrom: 'NeoJSON' with: [ spec loads: 'core' ].
 	spec
 		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v15' ];
