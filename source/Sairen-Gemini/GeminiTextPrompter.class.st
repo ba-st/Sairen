@@ -122,7 +122,10 @@ GeminiTextPrompter >> suggestedModels [
 
 	models := self availableModels.
 	^ ( models isEmpty or: [ models size = 1 and: [ models any includesKey: #error ] ] )
-		  then: [ Array with: self defaultModelName ]
+		  then: [
+				  Array with:
+					  ( NeoJSONObject fromString: ( '{"name": "<1s>"}' expandMacrosWith: self defaultModelName ) )
+			  ]
 		  otherwise: [
 			  models select: [ :model | ( model name endsWith: 'pro' ) or: [ model name endsWith: 'flash' ] ] ]
 ]
