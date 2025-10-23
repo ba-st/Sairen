@@ -60,7 +60,7 @@ BaselineOfSairen >> setUpPackages: spec [
 
 	spec
 		package: 'Sairen-Model'
-		with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' 'NeoJSON-Core' ) ];
+		with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' 'NeoJSON-Deployment' ) ];
 		group: 'Deployment' with: 'Sairen-Model';
 		package: 'Sairen-Gemini' with: [ spec requires: #( 'Sairen-Model' ) ];
 		group: 'Deployment' with: 'Sairen-Gemini';
