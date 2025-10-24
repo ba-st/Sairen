@@ -1,3 +1,6 @@
+"
+Icons for the Sairen web example.
+"
 Class {
 	#name : 'SairenExampleFileMetadataLibrary',
 	#superclass : 'WADeploymentAwareFileMetadataLibrary',

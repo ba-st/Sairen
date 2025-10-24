@@ -1,3 +1,6 @@
+"
+Stores conversation, uses a Gemini text prompter to get answers.
+"
 Class {
 	#name : 'GeminiChat',
 	#superclass : 'Object',
@@ -15,7 +18,7 @@ GeminiChat class >> authenticatedWith: anAPIKey [
 	"(GeminiChat authenticatedWith: 'API_KEY' ) askAbout: 'What is Smalltalk?'"
 
 	^ self
-		  connectingWith: self defaultHTTPClientProvider
+		  connectingWith: GenerativePrompter defaultHTTPClientProvider
 		  authenticatedWith: anAPIKey
 		  instructedTo: ''
 		  configuringPrompterWith: [ :prompter |  ]
@@ -29,16 +32,6 @@ GeminiChat class >> connectingWith: aClientProvider authenticatedWith: anAPIKey 
 		  authenticatedWith: anAPIKey
 		  instructedTo: anInstructionString
 		  configuringPrompterWith: aBlock
-]
-
-{ #category : 'private - accessing' }
-GeminiChat class >> defaultHTTPClientProvider [
-
-	^ [
-		  ZnClient new
-			  beOneShot;
-			  yourself
-	  ]
 ]
 
 { #category : 'private - processing' }
@@ -62,6 +55,12 @@ GeminiChat >> askAbout: aQuery [
 	answer := self promptBasedOn: self promptParameters.
 	self addAsModelResponse: answer.
 	^ answer
+]
+
+{ #category : 'accessing' }
+GeminiChat >> conversationMessages [
+
+	^ conversation asArray
 ]
 
 { #category : 'initialization' }

@@ -1,10 +1,14 @@
+"
+Gets answers from Ollama using text prompts.
+"
 Class {
 	#name : 'OllamaPrompter',
 	#superclass : 'GenerativePrompter',
 	#instVars : [
 		'clientProvider',
 		'apiKey',
-		'modelBinding'
+		'modelBinding',
+		'timeoutInSeconds'
 	],
 	#category : 'Sairen-Ollama',
 	#package : 'Sairen-Ollama'
@@ -27,6 +31,12 @@ OllamaPrompter >> baseUrl [
 	^ ( 'http://localhost:<1p>' expandMacrosWith: self port ) asUrl
 ]
 
+{ #category : 'configuring' }
+OllamaPrompter >> changeTimeoutTo: aNumberOfSeconds [
+
+	timeoutInSeconds := aNumberOfSeconds
+]
+
 { #category : 'private - accessing' }
 OllamaPrompter >> flattenedPartsFrom: responseEntity [
 
@@ -44,6 +54,7 @@ OllamaPrompter >> flattenedPartsFrom: responseEntity [
 OllamaPrompter >> httpClient [
 
 	^ clientProvider value
+		  timeout: timeoutInSeconds;
 		  url: self baseUrl / 'v1/chat/completions';
 		  yourself
 ]
@@ -53,6 +64,7 @@ OllamaPrompter >> initializeConnectingWith: aClientProvider using: anAPIKey [
 
 	clientProvider := aClientProvider.
 	apiKey := anAPIKey.
+	self changeTimeoutTo: 40.
 	modelBinding := Binding undefinedExplainedBy: 'No model chosen yet'
 ]
 
@@ -78,14 +90,15 @@ OllamaPrompter >> port [
 { #category : 'private - accessing' }
 OllamaPrompter >> postResponseFor: anEntity [
 
-	| client |
+	| client string |
 
 	client := self httpClient.
 	client
 		entity: anEntity;
 		contentType: ZnMimeType applicationJson.
 	client post.
-	^ NeoJSONObject fromString: client response entity
+	string := client response entity contents.
+	^ NeoJSONObject fromString: ( String streamContents: [ :stream | stream nextPutAll: string ] )
 ]
 
 { #category : 'accessing' }

@@ -18,7 +18,7 @@ BaselineOfSairen >> baseline: spec [
 				group: 'CI' with: 'Tests';
 				group: 'Dependent-SUnit-Extensions' with: 'Willow-SUnit';
 				group: 'Examples' with: #( 'Deployment' 'Sairen-Examples' );
-				group: 'Development' with: #( 'Tests' );
+				group: 'Development' with: #( 'Tests' 'Examples' );
 				group: 'default' with: 'Development'
 		]
 ]
@@ -39,8 +39,8 @@ BaselineOfSairen >> setUpDependencies: spec [
 		baseline: 'ZincHTTPComponents' with: [ spec repository: 'github://svenvc/zinc' ];
 		project: 'Zinc-Core' copyFrom: 'ZincHTTPComponents' with: [ spec loads: 'Core' ].
 	spec
-		baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON:master/repository' ];
-		project: 'NeoJSON-Core' copyFrom: 'NeoJSON' with: [ spec loads: 'core' ].
+		baseline: 'NeoJSON' with: [ spec repository: 'github://ba-st-dependencies/NeoJSON:v20' ];
+		project: 'NeoJSON-Deployment' copyFrom: 'NeoJSON' with: [ spec loads: 'Deployment' ].
 	spec
 		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v15' ];
 		project: 'Willow-Deployment' copyFrom: 'Willow' with: [ spec loads: 'Deployment' ];
@@ -60,16 +60,22 @@ BaselineOfSairen >> setUpPackages: spec [
 
 	spec
 		package: 'Sairen-Model'
-		with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' 'NeoJSON-Core' ) ];
+		with: [ spec requires: #( 'Buoy-Deployment' 'Zinc-Core' 'NeoJSON-Deployment' ) ];
 		group: 'Deployment' with: 'Sairen-Model';
 		package: 'Sairen-Gemini' with: [ spec requires: #( 'Sairen-Model' ) ];
 		group: 'Deployment' with: 'Sairen-Gemini';
+		package: 'Sairen-Ollama' with: [ spec requires: #( 'Sairen-Model' ) ];
+		group: 'Deployment' with: 'Sairen-Ollama';
+		package: 'Sairen-Cursor' with: [ spec requires: #( 'Sairen-Model' ) ];
+		group: 'Deployment' with: 'Sairen-Cursor';
 		package: 'Sairen-Examples' with: [
 				spec requires:
 						#( 'Sairen-Model' 'Willow-Deployment' 'Willow-Bootstrap-Deployment'
 						   'Willow-SpinKit-Deployment' )
 			];
 		group: 'Examples' with: 'Sairen-Examples';
+		package: 'Sairen-UI' with: [ spec requires: #( 'Sairen-Examples' ) ];
+		group: 'Examples' with: 'Sairen-UI';
 		package: 'Sairen-Gemini-Tests' with: [ spec requires: #( 'Sairen-Gemini' ) ];
 		group: 'Tests' with: 'Sairen-Gemini-Tests';
 		package: 'Sairen-Examples-Tests' with: [ spec requires: #( 'Willow-SUnit' 'Sairen-Examples' ) ];

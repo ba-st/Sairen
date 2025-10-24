@@ -1,3 +1,6 @@
+"
+Common superclass for all LLM providers. The protocol here must be kept to a minimum, and configuration must be specified in the subclasses.
+"
 Class {
 	#name : 'GenerativePrompter',
 	#superclass : 'Object',
@@ -23,7 +26,6 @@ GenerativePrompter class >> defaultHTTPClientProvider [
 	^ [
 		  ZnClient new
 			  beOneShot;
-			  timeout: 40;
 			  yourself
 	  ]
 ]

@@ -1,6 +1,11 @@
 Class {
 	#name : 'GeminiTextPrompterTest',
 	#superclass : 'TestCase',
+	#instVars : [
+		'response',
+		'url',
+		'entity'
+	],
 	#category : 'Sairen-Gemini-Tests',
 	#package : 'Sairen-Gemini-Tests'
 }
@@ -8,7 +13,7 @@ Class {
 { #category : 'private - accessing' }
 GeminiTextPrompterTest >> apiKey [
 
-	^ ' abc123'
+	^ 'abc123'
 ]
 
 { #category : 'private - accessing' }
@@ -29,22 +34,139 @@ GeminiTextPrompterTest >> contentType: mimeType [
 
 { #category : 'test support' }
 GeminiTextPrompterTest >> entity: anObject [
+
+	entity := anObject
+]
+
+{ #category : 'test support' }
+GeminiTextPrompterTest >> get [
+
+	response := ZnResponse ok: ( ZnEntity text: '{
+  "models": [
+    {
+      "name": "models/gemini-2.5-flash",
+      "version": "001",
+      "displayName": "Gemini 2.5 Flash",
+      "description": "Stable version of Gemini 2.5 Flash, our mid-size multimodal model that supports up to 1 million tokens, released in June of 2025.",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "supportedGenerationMethods": [
+        "generateContent",
+        "countTokens",
+        "createCachedContent",
+        "batchGenerateContent"
+      ],
+      "temperature": 1,
+      "topP": 0.95,
+      "topK": 64,
+      "maxTemperature": 2,
+      "thinking": true
+    },
+    {
+      "name": "models/gemini-2.5-pro",
+      "version": "2.5",
+      "displayName": "Gemini 2.5 Pro",
+      "description": "Stable release (June 17th, 2025) of Gemini 2.5 Pro",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 65536,
+      "supportedGenerationMethods": [
+        "generateContent",
+        "countTokens",
+        "createCachedContent",
+        "batchGenerateContent"
+      ],
+      "temperature": 1,
+      "topP": 0.95,
+      "topK": 64,
+      "maxTemperature": 2,
+      "thinking": true
+    },
+    {
+      "name": "models/gemini-2.0-flash",
+      "version": "2.0",
+      "displayName": "Gemini 2.0 Flash",
+      "description": "Gemini 2.0 Flash",
+      "inputTokenLimit": 1048576,
+      "outputTokenLimit": 8192,
+      "supportedGenerationMethods": [
+        "generateContent",
+        "countTokens",
+        "createCachedContent",
+        "batchGenerateContent"
+      ],
+      "temperature": 1,
+      "topP": 0.95,
+      "topK": 40,
+      "maxTemperature": 2
+    },
+    {
+      "name": "models/gemini-2.0-flash-preview-image-generation",
+      "version": "2.0",
+      "displayName": "Gemini 2.0 Flash Preview Image Generation",
+      "description": "Gemini 2.0 Flash Preview Image Generation",
+      "inputTokenLimit": 32768,
+      "outputTokenLimit": 8192,
+      "supportedGenerationMethods": [
+        "generateContent",
+        "countTokens",
+        "batchGenerateContent"
+      ],
+      "temperature": 1,
+      "topP": 0.95,
+      "topK": 64,
+      "maxTemperature": 2
+    }
+ ]
+}
+' )
 ]
 
 { #category : 'test support' }
 GeminiTextPrompterTest >> post [
+
+	response := ZnResponse ok: ( ZnEntity text: '{"candidates":[{"content":{"parts":["Rome"]}}]}' )
 ]
 
 { #category : 'test support' }
 GeminiTextPrompterTest >> response [
 
-	^ ZnResponse ok: ( ZnEntity text: '{"candidates":[{"content":{"parts":["Rome"]}}]}' )
+	^ response
+]
+
+{ #category : 'tests' }
+GeminiTextPrompterTest >> testChooseFastestModel [
+
+	| prompter |
+
+	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
+	prompter chooseFastestModel.
+	prompter prompt: 'Where is Carmen Sandiego?'.
+	self
+		assert: url
+		equals:
+			'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=abc123'
+				asUrl
+]
+
+{ #category : 'tests' }
+GeminiTextPrompterTest >> testChooseMostPotentModel [
+
+	| prompter |
+
+	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
+	prompter chooseMostPotentModel.
+	prompter prompt: 'Where is Carmen Sandiego?'.
+	self
+		assert: url
+		equals:
+			'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=abc123'
+				asUrl
 ]
 
 { #category : 'tests' }
 GeminiTextPrompterTest >> testConfiguring [
 
-	| prompter response |
+	| prompter |
 
 	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
 	prompter
@@ -53,30 +175,65 @@ GeminiTextPrompterTest >> testConfiguring [
 		changeStopSequencesTo: { 'death' . 'destruction' };
 		changeTopTokenAccumulatedProbabilityTo: 0.7;
 		changeTopTokenIndividualProbabilityTo: 5.
-	response := prompter prompt: 'Where is Carmen Sandiego?'.
-	self assert: response equals: { 'Rome' }
+	prompter prompt: 'Where is Carmen Sandiego?'.
+	self
+		assert: entity string
+		equals:
+		'{"generationConfig": {"maxOutputTokens": 200, "temperature": 0.1, "topK": 5, "stopSequences": ["death", "destruction"], "topP": 0.7}, "contents": [{"parts": [{"text": "Where is Carmen Sandiego?"}]}]}'
+]
+
+{ #category : 'tests' }
+GeminiTextPrompterTest >> testPromptingCustomizedContent [
+
+	| prompter parameters promptResponse |
+
+	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
+	parameters := Dictionary new
+		              at: 'system_instruction'
+		              put:
+			              { 'parts' -> { { 'text' -> 'this is the system prompt' } asDictionary } }
+				              asDictionary;
+		              at: 'contents'
+		              put:
+			              { { 'role' -> 'user' . 'parts'
+					              -> { { 'text' -> 'where is Carmen Sandiego?' } asDictionary } } asDictionary };
+		              yourself.
+	promptResponse := prompter promptBasedOn: parameters.
+	self
+		assert: entity string
+		equals:
+		'{"contents": [{"role": "user", "parts": [{"text": "where is Carmen Sandiego?"}]}], "system_instruction": {"parts": [{"text": "this is the system prompt"}]}}'
 ]
 
 { #category : 'tests' }
 GeminiTextPrompterTest >> testPromptingTextAndAudio [
 
-	| prompter response |
+	| prompter promptResponse |
 
 	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
-	response := prompter prompt: 'Where is Carmen Sandiego?' whenListeningTo: self audioInBase64 with: 'audio/webm'.
-	self assert: response equals: { 'Rome' }
+	promptResponse := prompter
+		                  prompt: 'Where is Carmen Sandiego?'
+		                  whenListeningTo: self audioInBase64
+		                  with: 'audio/webm'.
+	self assert: promptResponse equals: { 'Rome' }
 ]
 
 { #category : 'tests' }
 GeminiTextPrompterTest >> testPromptingTextOnly [
 
-	| prompter response |
+	| prompter promptResponse |
 
 	prompter := GeminiTextPrompter connectingWith: self clientProvider authenticatedWith: self apiKey.
-	response := prompter prompt: 'Where is Carmen Sandiego?'.
-	self assert: response equals: { 'Rome' }
+	promptResponse := prompter prompt: 'Where is Carmen Sandiego?'.
+	self assert: promptResponse equals: { 'Rome' }
+]
+
+{ #category : 'test support' }
+GeminiTextPrompterTest >> timeout: aNumberOfSeconds [
 ]
 
 { #category : 'test support' }
 GeminiTextPrompterTest >> url: urlObject [
+
+	url := urlObject
 ]

@@ -1,3 +1,6 @@
+"
+An example web view using Willow to showcase the features of Sairen.
+"
 Class {
 	#name : 'SairenExampleWebView',
 	#superclass : 'WillowApplication',

@@ -8,7 +8,7 @@ Class {
 { #category : 'private - accessing' }
 GeminiChatTest >> apiKey [
 
-	^ ' abc123'
+	^ 'abc123'
 ]
 
 { #category : 'private - accessing' }
@@ -36,7 +36,7 @@ GeminiChatTest >> response [
 ]
 
 { #category : 'tests' }
-GeminiChatTest >> testAsking [
+GeminiChatTest >> testChatting [
 
 	| chat response |
 
@@ -45,8 +45,25 @@ GeminiChatTest >> testAsking [
 		        authenticatedWith: self apiKey
 		        instructedTo: 'Give honest answers'
 		        configuringPrompterWith: [ :prompter |  ].
+	self assertEmpty: chat conversationMessages.
+
 	response := chat askAbout: 'Where is Carmen Sandiego?'.
-	self assert: response equals: 'Rome'
+	self assert: response equals: 'Rome'.
+	self
+		assertCollection: chat conversationMessages
+		equals: { 'user' -> 'Where is Carmen Sandiego?' . 'model' -> 'Rome' }.
+
+	response := chat askAbout: 'Where can I get pizza?'.
+	self assert: response equals: 'Rome'.
+	self
+		assertCollection: chat conversationMessages
+		equals:
+			{ 'user' -> 'Where is Carmen Sandiego?' . 'model' -> 'Rome' . 'user' -> 'Where can I get pizza?' .
+				'model' -> 'Rome' }
+]
+
+{ #category : 'test support' }
+GeminiChatTest >> timeout: aNumberOfSeconds [
 ]
 
 { #category : 'test support' }
