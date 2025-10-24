@@ -9,9 +9,8 @@ Class {
 SairenCodeReviewerTest >> testPrompting [
 
 	self
-		should: [
-				( SairenCodeReviewer authenticatedWith: 'YOUR_API_KEY' ) requestReviewOfCodeIn:
-					'YOUR_PROJECT_LOCATION'
-			]
-		raise: FileDoesNotExistException
+		assert: ( ( SairenCodeReviewer authenticatedWith: 'YOUR_API_KEY' ) requestReviewOfCodeIn:
+				  'YOUR_PROJECT_LOCATION' )
+		equals:
+		'Server responded HTTP/1.1 404 Not Found to https://generativelanguage.googleapis.com:443/v1beta/models/:generateContent?key=YOUR_API_KEY'
 ]

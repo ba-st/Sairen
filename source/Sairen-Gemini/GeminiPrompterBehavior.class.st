@@ -1,3 +1,6 @@
+"
+Common superclass for image and text prompting for Gemini.
+"
 Class {
 	#name : 'GeminiPrompterBehavior',
 	#superclass : 'GenerativePrompter',

@@ -1,3 +1,6 @@
+"
+Centralized access to the example features of Sairen.
+"
 Class {
 	#name : 'SairenCodingAssistant',
 	#superclass : 'Object',

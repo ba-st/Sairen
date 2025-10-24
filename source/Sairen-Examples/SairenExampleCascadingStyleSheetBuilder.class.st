@@ -1,3 +1,6 @@
+"
+CSS for the Sairen web example.
+"
 Class {
 	#name : 'SairenExampleCascadingStyleSheetBuilder',
 	#superclass : 'ReflectiveCascadingStyleSheetBuilder',

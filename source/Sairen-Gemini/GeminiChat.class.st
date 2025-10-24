@@ -1,3 +1,6 @@
+"
+Stores conversation, uses a Gemini text prompter to get answers.
+"
 Class {
 	#name : 'GeminiChat',
 	#superclass : 'Object',

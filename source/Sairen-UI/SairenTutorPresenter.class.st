@@ -1,3 +1,6 @@
+"
+Visual presentation of the Pharo Tutor feature.
+"
 Class {
 	#name : 'SairenTutorPresenter',
 	#superclass : 'SpPresenter',

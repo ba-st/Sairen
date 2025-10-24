@@ -1,3 +1,6 @@
+"
+Pharo component to modify the menus.
+"
 Class {
 	#name : 'SairenState',
 	#superclass : 'WorldState',

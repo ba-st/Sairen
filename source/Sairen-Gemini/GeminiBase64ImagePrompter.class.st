@@ -1,3 +1,6 @@
+"
+Specific protocol for Gemini image prompting.
+"
 Class {
 	#name : 'GeminiBase64ImagePrompter',
 	#superclass : 'GeminiPrompterBehavior',

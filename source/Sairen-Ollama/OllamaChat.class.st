@@ -1,3 +1,6 @@
+"
+Stores conversation, uses an Ollama text prompter to get answers.
+"
 Class {
 	#name : 'OllamaChat',
 	#superclass : 'Object',

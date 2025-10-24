@@ -1,3 +1,6 @@
+"
+Sairen icon provider.
+"
 Class {
 	#name : 'SairenIcons',
 	#superclass : 'Object',

@@ -1,3 +1,6 @@
+"
+A prompter to request jobs to Cursor.
+"
 Class {
 	#name : 'CursorPrompter',
 	#superclass : 'GenerativePrompter',

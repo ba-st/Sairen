@@ -1,3 +1,6 @@
+"
+Perform an analysis of a method considering the implementors referenced in the same class.
+"
 Class {
 	#name : 'SairenMethodExplainer',
 	#superclass : 'Object',

@@ -1,3 +1,6 @@
+"
+A customized chat that focuses on answering questions about Pharo.
+"
 Class {
 	#name : 'SairenPharoTutor',
 	#superclass : 'Object',

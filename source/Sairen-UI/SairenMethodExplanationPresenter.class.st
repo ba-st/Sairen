@@ -1,3 +1,6 @@
+"
+Visual presentation of the method explainer.
+"
 Class {
 	#name : 'SairenMethodExplanationPresenter',
 	#superclass : 'SpPresenter',

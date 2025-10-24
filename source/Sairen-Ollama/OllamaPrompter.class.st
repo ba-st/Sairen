@@ -1,3 +1,6 @@
+"
+Gets answers from Ollama using text prompts.
+"
 Class {
 	#name : 'OllamaPrompter',
 	#superclass : 'GenerativePrompter',

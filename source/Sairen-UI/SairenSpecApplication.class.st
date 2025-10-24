@@ -1,3 +1,6 @@
+"
+Common protocol to instantiate the visual presentations.
+"
 Class {
 	#name : 'SairenSpecApplication',
 	#superclass : 'SpApplication',

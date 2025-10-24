@@ -1,3 +1,6 @@
+"
+Pharo component to offer a menu that calls upon the code reviewer.
+"
 Class {
 	#name : 'SairenCodeReviewCommand',
 	#superclass : 'CmdCommand',

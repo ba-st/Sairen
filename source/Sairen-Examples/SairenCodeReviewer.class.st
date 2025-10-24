@@ -1,3 +1,6 @@
+"
+Allows requesting review based on the filetout of the code provided.
+"
 Class {
 	#name : 'SairenCodeReviewer',
 	#superclass : 'Object',

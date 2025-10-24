@@ -1,3 +1,6 @@
+"
+Gets answers from Gemini using text and audio formats.
+"
 Class {
 	#name : 'GeminiTextPrompter',
 	#superclass : 'GeminiPrompterBehavior',

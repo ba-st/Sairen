@@ -1,3 +1,6 @@
+"
+Visual presentation of the code reviewer.
+"
 Class {
 	#name : 'SairenReviewPresenter',
 	#superclass : 'SpPresenter',

@@ -1,3 +1,6 @@
+"
+A utility object to collect implementors recursively referenced from a method.
+"
 Class {
 	#name : 'SourceCodeCollector',
 	#superclass : 'Object',

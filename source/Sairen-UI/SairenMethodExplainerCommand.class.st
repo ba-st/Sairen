@@ -1,3 +1,6 @@
+"
+Pharo component to offer a menu that calls upon the method explainer.
+"
 Class {
 	#name : 'SairenMethodExplainerCommand',
 	#superclass : 'SycMethodCommand',
