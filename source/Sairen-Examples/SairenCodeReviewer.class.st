@@ -62,17 +62,15 @@ Purposeful Commenting: A method should only have a comment if its implementation
 
 Intelligent ba-st Framework Integration: First, check if a ba-st framework is already in use. If so, suggest corrections only if the usage is incorrect or inconsistent with the framework''s documented design. If a relevant framework is not in use, identify opportunities to replace custom-built solutions with its robust components. For example:
 
-Aconcagua: For value objects like Money, Measure, DateAndTime, etc.
+Aconcagua: For measures and units.
 
 Buoy: For foundational domain modeling concepts, specifications, and the Null Object pattern.
 
-Kepler / Stargate: For object-relational mapping or data persistence.
+Hyperspace / Superluminal / Stargate: For building REST APIs or clients.
 
-Boardwalk / Willow: For web application development.
+Boardwalk / Willow / RenoirSt: For web application development.
 
-Hyperspace / Sagan: For building REST APIs or clients.
-
-RenoirSt: For graphical rendering on a canvas.
+Sagan: For object-relational mapping or data persistence.
 
 Output Instructions:
 Provide only the list of suggestions. Do not include any introduction, preamble, conclusion, or summary. Focus on the most relevant improvements.
