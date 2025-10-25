@@ -78,6 +78,8 @@ BaselineOfSairen >> setUpPackages: spec [
 		group: 'Examples' with: 'Sairen-UI';
 		package: 'Sairen-Gemini-Tests' with: [ spec requires: #( 'Sairen-Gemini' ) ];
 		group: 'Tests' with: 'Sairen-Gemini-Tests';
+		package: 'Sairen-Ollama-Tests' with: [ spec requires: #( 'Sairen-Ollama' ) ];
+		group: 'Tests' with: 'Sairen-Ollama-Tests';
 		package: 'Sairen-Examples-Tests' with: [ spec requires: #( 'Willow-SUnit' 'Sairen-Examples' ) ];
 		group: 'Tests' with: 'Sairen-Examples-Tests'
 ]
